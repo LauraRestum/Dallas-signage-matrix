@@ -177,6 +177,21 @@
           "name": "Par Is Your Friend Signs \u2014 4",
           "image": "assets/staked-24x18-par-friend.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+        },
+        {
+          "name": "Tee Box \u2014 Added Sign 1",
+          "image": "assets/staked-24x18-added-1.jpg",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+        },
+        {
+          "name": "Birdie \u2014 Added Sign 2",
+          "image": "assets/staked-24x18-added-2.jpg",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+        },
+        {
+          "name": "Par \u2014 Added Sign 3",
+          "image": "assets/staked-24x18-added-3.jpg",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         }
       ]
     },
@@ -198,6 +213,12 @@
           "image": "assets/x-banner-welcome.jpg",
           "details": "Portrait orientation",
           "category": "X-Banners"
+        },
+        {
+          "name": "Welcome Sign \u2014 Added X-Banner",
+          "image": "assets/x-banner-welcome-2.jpg",
+          "details": "Portrait orientation",
+          "category": "X-Banners"
         }
       ]
     },
@@ -207,6 +228,11 @@
         {
           "name": "All Sponsors",
           "image": "assets/program-all-sponsors.jpg",
+          "category": "Program"
+        },
+        {
+          "name": "Program \u2014 Added Version",
+          "image": "assets/program-added-version.jpg",
           "category": "Program"
         }
       ]
