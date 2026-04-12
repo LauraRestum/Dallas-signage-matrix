@@ -25,14 +25,25 @@ const isPdfPath = (path) => String(path ?? '').toLowerCase().endsWith('.pdf');
 const withPdfPage = (path, page) => {
   if (!isPdfPath(path)) return path;
 
-  const [basePath] = String(path).split('#');
-  const params = new URLSearchParams();
-  if (page) params.set('page', String(page));
-  params.set('view', 'FitH');
-  params.set('toolbar', '0');
-  params.set('navpanes', '0');
+  const [rawPath] = String(path).split('#');
+  const [basePath, existingQuery = ''] = rawPath.split('?');
+  const queryParams = new URLSearchParams(existingQuery);
+  const fragmentParams = new URLSearchParams();
 
-  return `${basePath}#${params.toString()}`;
+  if (page) {
+    const pageValue = String(page);
+    // Keep a unique URL per tile so embedded PDF viewers don't reuse the first
+    // loaded view for every iframe pointing at the same file.
+    queryParams.set('signagePage', pageValue);
+    fragmentParams.set('page', pageValue);
+  }
+
+  fragmentParams.set('view', 'FitH');
+  fragmentParams.set('toolbar', '0');
+  fragmentParams.set('navpanes', '0');
+
+  const query = queryParams.toString();
+  return `${basePath}${query ? `?${query}` : ''}#${fragmentParams.toString()}`;
 };
 
 const openModal = (src, altText, mediaType = 'image') => {
