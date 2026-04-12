@@ -130,7 +130,7 @@ body {
 
 .tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1rem;
 }
 
@@ -161,7 +161,7 @@ body {
 .tile .tile-pdf {
   display: block;
   width: 100%;
-  height: clamp(220px, 30vh, 360px);
+  height: clamp(240px, 34vh, 420px);
   border: 0;
   background: #f7f9fc;
 }
@@ -221,7 +221,7 @@ body {
   }
 
   .tiles {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
 }
 

@@ -164,7 +164,12 @@
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Par \u2014 WorkQuest",
+          "name": "Par \u2014 ",
+          "image": "assets/staked-24x18-par-blank.jpg",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+        },
+        {
+          "name": "Par Is Your Friend",
           "image": "24x18_ParFriend2.pdf",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
@@ -205,8 +210,15 @@
       "title": "Program",
       "items": [
         {
-          "name": "All Sponsors",
+          "name": "Birdie and Up \u2014 Front",
           "image": "Final_DAL_2025GolfProgram_26.pdf",
+          "page": 1,
+          "category": "Program"
+        },
+        {
+          "name": "Birdie and Up \u2014 Back",
+          "image": "Final_DAL_2025GolfProgram_26.pdf",
+          "page": 2,
           "category": "Program"
         }
       ]

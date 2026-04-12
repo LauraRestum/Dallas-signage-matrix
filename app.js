@@ -22,6 +22,19 @@ const makeFallbackSrc = (label, width = 1200, height = 700) => {
 
 const isPdfPath = (path) => String(path ?? '').toLowerCase().endsWith('.pdf');
 
+const withPdfPage = (path, page) => {
+  if (!isPdfPath(path)) return path;
+
+  const [basePath] = String(path).split('#');
+  const params = new URLSearchParams();
+  if (page) params.set('page', String(page));
+  params.set('view', 'FitH');
+  params.set('toolbar', '0');
+  params.set('navpanes', '0');
+
+  return `${basePath}#${params.toString()}`;
+};
+
 const openModal = (src, altText, mediaType = 'image') => {
   const isPdf = mediaType === 'pdf';
   modalImage.style.display = isPdf ? 'none' : 'block';
@@ -101,12 +114,13 @@ const buildDashboard = (dataset) => {
       const portraitMode = item.details?.toLowerCase().includes('portrait');
       const fallbackSrc = makeFallbackSrc(item.name, portraitMode ? 800 : 1200, portraitMode ? 1400 : 700);
       const isPdf = isPdfPath(item.image);
+      const pdfSource = isPdf ? withPdfPage(item.image, item.page) : null;
       let preview;
 
       if (isPdf) {
         const pdf = document.createElement('iframe');
         pdf.className = 'tile-pdf';
-        pdf.src = item.image;
+        pdf.src = pdfSource;
         pdf.title = `${item.name} PDF preview`;
         pdf.loading = 'lazy';
         preview = pdf;
@@ -129,7 +143,7 @@ const buildDashboard = (dataset) => {
       tiles.appendChild(figure);
 
       figure.addEventListener('click', () => {
-        const source = isPdf ? item.image : preview.currentSrc || preview.src || item.image;
+        const source = isPdf ? pdfSource : preview.currentSrc || preview.src || item.image;
         openModal(source, item.name, isPdf ? 'pdf' : 'image');
       });
     });
