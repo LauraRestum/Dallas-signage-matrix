@@ -2,6 +2,7 @@ const toc = document.getElementById('toc');
 const content = document.getElementById('content');
 const modal = document.getElementById('image-modal');
 const modalImage = document.getElementById('modal-image');
+const modalPdf = document.getElementById('modal-pdf');
 const closeButton = document.getElementById('modal-close');
 
 const slugify = (text) =>
@@ -16,9 +17,19 @@ const makeFallbackSrc = (label, width = 1200, height = 700) => {
   return `data:image/svg+xml;charset=utf-8,${svg}`;
 };
 
+const isPdf = (path) => path.toLowerCase().endsWith('.pdf');
+
 const openModal = (src, altText) => {
-  modalImage.src = src;
-  modalImage.alt = altText;
+  if (isPdf(src)) {
+    modalPdf.src = `${src}#view=FitH&page=1`;
+    modalPdf.style.display = 'block';
+    modalImage.style.display = 'none';
+  } else {
+    modalImage.src = src;
+    modalImage.alt = altText;
+    modalImage.style.display = 'block';
+    modalPdf.style.display = 'none';
+  }
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
 };
@@ -27,6 +38,7 @@ const closeModal = () => {
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden', 'true');
   modalImage.src = '';
+  modalPdf.src = '';
 };
 
 const buildDashboard = (dataset) => {
@@ -84,23 +96,29 @@ const buildDashboard = (dataset) => {
         figure.classList.add('portrait');
       }
 
-      const image = document.createElement('img');
-      image.src = item.image;
-      image.alt = item.name;
-      image.loading = 'lazy';
-      image.decoding = 'async';
-      image.addEventListener('error', () => {
-        image.src = makeFallbackSrc(item.name, isPortrait ? 800 : 1200, isPortrait ? 1400 : 700);
-      });
+      const media = isPdf(item.image) ? document.createElement('iframe') : document.createElement('img');
+      if (isPdf(item.image)) {
+        media.src = `${item.image}#view=FitH&page=1`;
+        media.loading = 'lazy';
+        media.title = item.name;
+      } else {
+        media.src = item.image;
+        media.alt = item.name;
+        media.loading = 'lazy';
+        media.decoding = 'async';
+        media.addEventListener('error', () => {
+          media.src = makeFallbackSrc(item.name, isPortrait ? 800 : 1200, isPortrait ? 1400 : 700);
+        });
+      }
 
       const caption = document.createElement('figcaption');
       caption.textContent = item.name;
 
-      figure.append(image, caption);
+      figure.append(media, caption);
       tiles.appendChild(figure);
 
       figure.addEventListener('click', () => {
-        openModal(image.currentSrc || image.src, item.name);
+        openModal(item.image, item.name);
       });
     });
 

@@ -32,6 +32,12 @@
           "name": "All Sponsor Board \u2014 All Sponsors",
           "image": "assets/foamboard-all-sponsors.jpg",
           "category": "30x30 Foam Board (Easel)"
+        },
+        {
+          "name": "30X30_ParFriend.pdf",
+          "image": "30X30_ParFriend.pdf",
+          "category": "30x30 Foam Board (Easel)",
+          "details": "PDF asset"
         }
       ]
     },
@@ -179,19 +185,16 @@
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "staked-24x18-added-1.jpg",
-          "image": "assets/staked-24x18-added-1.jpg",
-          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+          "name": "24x18_ParFriend.pdf",
+          "image": "24x18_ParFriend.pdf",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)",
+          "details": "PDF asset"
         },
         {
-          "name": "staked-24x18-added-2.jpg",
-          "image": "assets/staked-24x18-added-2.jpg",
-          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
-        },
-        {
-          "name": "staked-24x18-added-3.jpg",
-          "image": "assets/staked-24x18-added-3.jpg",
-          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+          "name": "24x18_ParFriend2.pdf",
+          "image": "24x18_ParFriend2.pdf",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)",
+          "details": "PDF asset"
         }
       ]
     },
@@ -215,10 +218,10 @@
           "category": "X-Banners"
         },
         {
-          "name": "x-banner-welcome-2.jpg",
-          "image": "assets/x-banner-welcome-2.jpg",
-          "details": "Portrait orientation",
-          "category": "X-Banners"
+          "name": "X_Banner_Welcome_26.pdf",
+          "image": "X_Banner_Welcome_26.pdf",
+          "category": "X-Banners",
+          "details": "Portrait orientation PDF asset"
         }
       ]
     },
@@ -231,9 +234,10 @@
           "category": "Program"
         },
         {
-          "name": "program-added-version.jpg",
-          "image": "assets/program-added-version.jpg",
-          "category": "Program"
+          "name": "Final_DAL_2025GolfProgram_26.pdf",
+          "image": "Final_DAL_2025GolfProgram_26.pdf",
+          "category": "Program",
+          "details": "PDF asset"
         }
       ]
     }
