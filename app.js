@@ -36,6 +36,7 @@ const openModal = (src, altText, mediaType = 'image') => {
 
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
 };
 
 const closeModal = () => {
@@ -43,6 +44,7 @@ const closeModal = () => {
   modal.setAttribute('aria-hidden', 'true');
   modalImage.src = '';
   modalPdf.src = '';
+  document.body.style.overflow = '';
 };
 
 const buildDashboard = (dataset) => {
