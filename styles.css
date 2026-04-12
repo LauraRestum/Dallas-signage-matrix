@@ -156,6 +156,13 @@ body {
   object-fit: contain;
 }
 
+.tile .tile-pdf {
+  display: block;
+  width: 100%;
+  height: min(62vh, 560px);
+  border: 0;
+}
+
 .tile figcaption {
   margin: 0;
   padding: 0.45rem 0.3rem 0.1rem;
@@ -182,6 +189,14 @@ body {
   max-width: min(1200px, 95vw);
   max-height: 90vh;
   object-fit: contain;
+}
+
+.modal iframe {
+  display: none;
+  width: min(1200px, 95vw);
+  height: min(90vh, 1000px);
+  border: 0;
+  background: #fff;
 }
 
 .modal-close {

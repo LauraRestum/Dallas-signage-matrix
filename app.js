@@ -2,6 +2,7 @@ const toc = document.getElementById('toc');
 const content = document.getElementById('content');
 const modal = document.getElementById('image-modal');
 const modalImage = document.getElementById('modal-image');
+const modalPdf = document.getElementById('modal-pdf');
 const closeButton = document.getElementById('modal-close');
 
 const slugify = (text) =>
@@ -11,14 +12,28 @@ const slugify = (text) =>
     .replace(/(^-|-$)/g, '');
 
 const makeFallbackSrc = (label, width = 1200, height = 700) => {
-  const encoded = encodeURIComponent(label);
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' viewBox='0 0 ${width} ${height}'><rect width='100%' height='100%' fill='#f5f7fa'/><text x='50%' y='47%' dominant-baseline='middle' text-anchor='middle' fill='#022855' font-family='Montserrat, Arial, sans-serif' font-size='48'>Preview unavailable</text><text x='50%' y='57%' dominant-baseline='middle' text-anchor='middle' fill='#546171' font-family='Montserrat, Arial, sans-serif' font-size='30'>${encoded}</text></svg>`;
-  return `data:image/svg+xml;charset=utf-8,${svg}`;
+  const safeLabel = String(label ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' viewBox='0 0 ${width} ${height}'><rect width='100%' height='100%' fill='#f5f7fa'/><text x='50%' y='47%' dominant-baseline='middle' text-anchor='middle' fill='#022855' font-family='Montserrat, Arial, sans-serif' font-size='48'>Preview unavailable</text><text x='50%' y='57%' dominant-baseline='middle' text-anchor='middle' fill='#546171' font-family='Montserrat, Arial, sans-serif' font-size='30'>${safeLabel}</text></svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 };
 
-const openModal = (src, altText) => {
-  modalImage.src = src;
-  modalImage.alt = altText;
+const isPdfPath = (path) => String(path ?? '').toLowerCase().endsWith('.pdf');
+
+const openModal = (src, altText, mediaType = 'image') => {
+  const isPdf = mediaType === 'pdf';
+  modalImage.style.display = isPdf ? 'none' : 'block';
+  modalPdf.style.display = isPdf ? 'block' : 'none';
+
+  if (isPdf) {
+    modalPdf.src = src;
+  } else {
+    modalImage.src = src;
+    modalImage.alt = altText;
+  }
+
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
 };
@@ -27,6 +42,7 @@ const closeModal = () => {
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden', 'true');
   modalImage.src = '';
+  modalPdf.src = '';
 };
 
 const buildDashboard = (dataset) => {
@@ -80,23 +96,39 @@ const buildDashboard = (dataset) => {
       figure.className = 'tile';
       figure.id = `${sectionId}-item-${itemIndex}`;
 
-      const image = document.createElement('img');
-      image.src = item.image;
-      image.alt = item.name;
-      image.loading = 'lazy';
-      image.decoding = 'async';
-      image.addEventListener('error', () => {
-        image.src = makeFallbackSrc(item.name, item.details?.toLowerCase().includes('portrait') ? 800 : 1200, item.details?.toLowerCase().includes('portrait') ? 1400 : 700);
-      });
+      const portraitMode = item.details?.toLowerCase().includes('portrait');
+      const fallbackSrc = makeFallbackSrc(item.name, portraitMode ? 800 : 1200, portraitMode ? 1400 : 700);
+      const isPdf = isPdfPath(item.image);
+      let preview;
+
+      if (isPdf) {
+        const pdf = document.createElement('iframe');
+        pdf.className = 'tile-pdf';
+        pdf.src = item.image;
+        pdf.title = `${item.name} PDF preview`;
+        pdf.loading = 'lazy';
+        preview = pdf;
+      } else {
+        const image = document.createElement('img');
+        image.src = item.image;
+        image.alt = item.name;
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        image.addEventListener('error', () => {
+          image.src = fallbackSrc;
+        });
+        preview = image;
+      }
 
       const caption = document.createElement('figcaption');
       caption.textContent = item.name;
 
-      figure.append(image, caption);
+      figure.append(preview, caption);
       tiles.appendChild(figure);
 
       figure.addEventListener('click', () => {
-        openModal(image.currentSrc || image.src, item.name);
+        const source = isPdf ? item.image : preview.currentSrc || preview.src || item.image;
+        openModal(source, item.name, isPdf ? 'pdf' : 'image');
       });
     });
 
