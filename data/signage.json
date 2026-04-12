@@ -27,6 +27,11 @@
           "name": "Sideline Grill Sponsor \u2014 Massif",
           "image": "assets/foamboard-sideline-grill.jpg",
           "category": "30x30 Foam Board (Easel)"
+        },
+        {
+          "name": "Par Is Your Friend (Version 3)",
+          "image": "30X30_ParFriend.pdf",
+          "category": "30x30 Foam Board (Easel)"
         }
       ]
     },
@@ -176,11 +181,6 @@
         {
           "name": "Par Is Your Friend Signs \u2014 3",
           "image": "24x18_ParFriend.pdf",
-          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
-        },
-        {
-          "name": "Par Is Your Friend (Version 3)",
-          "image": "30X30_ParFriend.pdf",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         }
       ]
