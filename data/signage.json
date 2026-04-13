@@ -1,16 +1,6 @@
 {
   "categories": [
     {
-      "title": "Mesh Banner",
-      "items": [
-        {
-          "name": "Mesh Banner — Contestup",
-          "image": "data/signs/7x4_MeshBanner_DALGolf26.jpg",
-          "category": "Mesh Banner"
-        }
-      ]
-    },
-    {
       "title": "30x30 Foam Board (Easel)",
       "items": [
         {
@@ -40,7 +30,7 @@
         },
         {
           "name": "Check-In",
-          "image": "data/signs/8.5x11_Printed_CheckIn.jpg",
+          "image": "data/signs/30x30_CheckIn.jpg",
           "category": "30x30 Foam Board (Easel)"
         }
       ]
@@ -90,7 +80,7 @@
         },
         {
           "name": "Sideline Grill Sponsor — Massif",
-          "image": "data/signs/30x30_SidelineGrill_Massif.jpg",
+          "image": "data/signs/30x18_SidelineGrill_Massif.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
         }
       ]
@@ -286,7 +276,7 @@
         },
         {
           "name": "Bag Sponsor — Ash & Almond Charcuterie",
-          "image": "data/signs/30x30_BagSponsor_AshAlmond.jpg",
+          "image": "data/signs/8.5x11_Printed_AshAlmond.jpg",
           "orientation": "portrait",
           "category": "Printed Items (8.5x11)"
         }
