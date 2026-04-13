@@ -1,6 +1,16 @@
 {
   "categories": [
     {
+      "title": "Mesh Banner",
+      "items": [
+        {
+          "name": "Mesh Banner — Contestup",
+          "image": "data/signs/7x4_MeshBanner_DALGolf26.jpg",
+          "category": "Mesh Banner"
+        }
+      ]
+    },
+    {
       "title": "30x30 Foam Board (Easel)",
       "items": [
         {
