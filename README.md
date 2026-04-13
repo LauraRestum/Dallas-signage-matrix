@@ -17,3 +17,20 @@ When replacing sign art:
 3. Keep the program PDF (`Final_DAL_2025GolfProgram_26.pdf`) for the Program section.
 
 If a JSON path does not match an existing file, the app will show a fallback preview.
+
+## Section-level print-ready downloads
+
+Each category in `data/signage.json` can now include a `printReadyFile` value (SVG, PNG, or PDF path).
+
+Example:
+
+```json
+{
+  "title": "30x30 Foam Board (Easel)",
+  "printReadyFile": "data/print-ready/30x30-foam-board-deck.pdf",
+  "items": [ ... ]
+}
+```
+
+When this field is present, the left navigation shows a **Download print-ready version** button beneath that section's sign list.
+If the field is omitted, the button is shown in a disabled state until you add the file path.

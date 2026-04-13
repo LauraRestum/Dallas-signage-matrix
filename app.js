@@ -102,7 +102,22 @@ const buildDashboard = (dataset) => {
       itemButtons.push(itemButton);
     });
 
-    groupWrap.append(groupButton, list);
+    const downloadHref = category.printReadyFile || category.downloadFile || '';
+    const downloadLink = document.createElement('a');
+    downloadLink.className = 'nav-download';
+    downloadLink.textContent = 'Download print-ready version';
+
+    if (downloadHref) {
+      downloadLink.href = downloadHref;
+      downloadLink.setAttribute('download', '');
+    } else {
+      downloadLink.href = '#';
+      downloadLink.setAttribute('aria-disabled', 'true');
+      downloadLink.classList.add('nav-download--disabled');
+      downloadLink.addEventListener('click', (event) => event.preventDefault());
+    }
+
+    groupWrap.append(groupButton, list, downloadLink);
     toc.appendChild(groupWrap);
     groupButtons.push(groupButton);
 
