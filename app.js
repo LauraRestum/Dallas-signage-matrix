@@ -24,6 +24,7 @@ const isPdfPath = (path) => String(path ?? '').toLowerCase().endsWith('.pdf');
 const isPowerPointPlaceholder = (categoryTitle, itemName) =>
   categoryTitle === 'Digital items' && String(itemName ?? '').toLowerCase() === 'powerpoint';
 const hasDownloadFiles = (files) => Array.isArray(files) && files.length > 0;
+const hasCustomDownload = (item) => Boolean(item?.downloadFile);
 
 const filenameFromPath = (path) => String(path ?? '').split('/').pop()?.split('?')[0] || 'download';
 
@@ -210,7 +211,7 @@ const buildDashboard = (dataset) => {
 
         const placeholder = document.createElement('div');
         placeholder.className = 'tile-placeholder-message';
-        placeholder.textContent = 'PowerPoint coming soon';
+        placeholder.textContent = 'PowerPoint template ready';
 
         const divider = document.createElement('div');
         divider.className = 'tile-placeholder-divider';
@@ -241,6 +242,16 @@ const buildDashboard = (dataset) => {
       caption.textContent = item.name;
 
       figure.append(preview, caption);
+
+      if (hasCustomDownload(item)) {
+        const downloadButton = document.createElement('a');
+        downloadButton.className = 'tile-download';
+        downloadButton.href = item.downloadFile;
+        downloadButton.textContent = item.downloadLabel || 'Download';
+        downloadButton.setAttribute('download', '');
+        figure.appendChild(downloadButton);
+      }
+
       tiles.appendChild(figure);
 
       if (showPowerPointPlaceholder) {

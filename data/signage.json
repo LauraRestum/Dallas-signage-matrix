@@ -299,6 +299,8 @@
         {
           "name": "PowerPoint",
           "image": "data/signs/Screen_Welcome.jpg",
+          "downloadFile": "data/signs/PPT_ForeVision_Dallas_2026.pptx",
+          "downloadLabel": "Download and customize now",
           "category": "Digital items"
         },
         {
