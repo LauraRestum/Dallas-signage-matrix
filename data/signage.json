@@ -193,6 +193,16 @@
           "name": "Par Is Your Friend (Version 3)",
           "image": "data/signs/24x18_ParIsYourFriend_3.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+        },
+        {
+          "name": "Driving Range 1 - Moda",
+          "image": "data/signs/24x18_DrivingRange1.jpg",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+        },
+        {
+          "name": "Driving Range 2 - Moda",
+          "image": "data/signs/24x18_DrivingRange2.jpg",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         }
       ]
     },
