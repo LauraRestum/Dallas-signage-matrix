@@ -285,7 +285,6 @@
     },
     {
       "title": "Digital items",
-      "printReadyFile": "data/signs/Screen_Welcome.png",
       "items": [
         {
           "name": "PowerPoint",
