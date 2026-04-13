@@ -112,6 +112,29 @@ body {
   background: #deebfa;
 }
 
+
+.nav-download {
+  display: block;
+  margin: 0.2rem 0.3rem 0;
+  padding: 0.45rem 0.6rem;
+  border-radius: 7px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--primary-blue);
+  background: #e6f1ff;
+}
+
+.nav-download:hover {
+  background: #d6e8ff;
+}
+
+.nav-download--disabled {
+  color: #7a8796;
+  background: #eef2f6;
+  cursor: not-allowed;
+}
+
 .content {
   padding: 1rem 1.2rem 2.5rem;
 }
