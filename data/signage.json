@@ -231,7 +231,7 @@
       "items": [
         {
           "name": "Welcome Mesh Banner",
-          "image": "data/signs/7x4_MeshBanner_DALGolf26.jpg",
+          "image": "data/signs/7X4_meshbanner-2.jpg",
           "category": "7x4 Mesh Banners"
         }
       ]
@@ -264,7 +264,7 @@
         },
         {
           "name": "Birdie and Up Program \u2014 Back",
-          "image": "data/signs/Back_DAL_2025GolfProgram_26.jpg",
+          "image": "data/signs/Back_2025GolfProgram_26_1.jpg",
           "orientation": "portrait",
           "category": "Program"
         }
