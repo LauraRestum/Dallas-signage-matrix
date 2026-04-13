@@ -34,18 +34,13 @@
           "category": "30x30 Foam Board (Easel)"
         },
         {
-          "name": "Sideline Grill Sponsor — Massif",
-          "image": "data/signs/30x30_SidelineGrill_Massif.jpg",
-          "category": "30x30 Foam Board (Easel)"
-        },
-        {
-          "name": "Bag Sponsor — Ash & Almond Charcuterie",
-          "image": "data/signs/30x30_BagSponsor_AshAlmond.jpg",
-          "category": "30x30 Foam Board (Easel)"
-        },
-        {
           "name": "All Sponsor Board",
           "image": "data/signs/30x30_AllSponsor.jpg",
+          "category": "30x30 Foam Board (Easel)"
+        },
+        {
+          "name": "Check-In",
+          "image": "data/signs/8.5x11_Printed_CheckIn.jpg",
           "category": "30x30 Foam Board (Easel)"
         }
       ]
@@ -92,6 +87,11 @@
           "name": "Corporate Sponsor — Allen Exploration",
           "image": "data/signs/30x18_CorporateSponsor_Allen.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
+        },
+        {
+          "name": "Sideline Grill Sponsor — Massif",
+          "image": "data/signs/30x30_SidelineGrill_Massif.jpg",
+          "category": "30x18 Staked Sign (Title + Logo)"
         }
       ]
     },
@@ -108,11 +108,6 @@
     {
       "title": "24x18 Staked Sign (Thank you to our sponsor + logo)",
       "items": [
-        {
-          "name": "Tee Box — GoVivid",
-          "image": "data/signs/24x18_TeeBox_GoVivid.jpg",
-          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
-        },
         {
           "name": "Tee Box — Polara Enterprises",
           "image": "data/signs/24x18_TeeBox_Polara.jpg",
@@ -286,6 +281,12 @@
         {
           "name": "Mulligan Rules Sign",
           "image": "data/signs/8.5x11_Printed_MulliganRules.jpg",
+          "orientation": "portrait",
+          "category": "Printed Items (8.5x11)"
+        },
+        {
+          "name": "Bag Sponsor — Ash & Almond Charcuterie",
+          "image": "data/signs/30x30_BagSponsor_AshAlmond.jpg",
           "orientation": "portrait",
           "category": "Printed Items (8.5x11)"
         }
