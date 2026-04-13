@@ -122,7 +122,11 @@ const buildDashboard = (dataset) => {
       figure.className = 'tile';
       figure.id = `${sectionId}-item-${itemIndex}`;
 
-      const portraitMode = item.details?.toLowerCase().includes('portrait');
+      const portraitMode =
+        item.orientation === 'portrait' || item.details?.toLowerCase().includes('portrait');
+      if (portraitMode) {
+        figure.classList.add('tile--portrait');
+      }
       const fallbackSrc = makeFallbackSrc(item.name, portraitMode ? 800 : 1200, portraitMode ? 1400 : 700);
       const isPdf = isPdfPath(item.image);
       const pdfSource = isPdf ? withPdfPage(item.image, item.page) : null;
