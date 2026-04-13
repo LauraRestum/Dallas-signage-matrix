@@ -166,6 +166,14 @@ body {
   background: #f7f9fc;
 }
 
+.tile--portrait img {
+  height: clamp(320px, 50vh, 620px);
+}
+
+.tile--portrait .tile-pdf {
+  height: clamp(360px, 56vh, 700px);
+}
+
 .tile figcaption {
   margin: 0;
   padding: 0.45rem 0.3rem 0.1rem;

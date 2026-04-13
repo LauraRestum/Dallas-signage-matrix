@@ -209,13 +209,15 @@
       "title": "12x18 Podium Signs",
       "items": [
         {
-          "name": "Podium Sign — Version 1",
-          "image": "data/signs/12x18_PodiumSign_1.jpg",
+          "name": "Podium Sign — White Logo",
+          "image": "data/signs/12x18_PodiumSign_WHTLogo.jpg",
+          "orientation": "portrait",
           "category": "12x18 Podium Signs"
         },
         {
-          "name": "Podium Sign — Version 2",
-          "image": "data/signs/12x18_PodiumSign_2.jpg",
+          "name": "Podium Sign — Color Logo",
+          "image": "data/signs/12x18_PodiumSign_CRLLogo.jpg",
+          "orientation": "portrait",
           "category": "12x18 Podium Signs"
         }
       ]
@@ -224,13 +226,17 @@
       "title": "Program",
       "items": [
         {
-          "name": "Birdie and Up — Front",
-          "image": "data/signs/Program_Front.jpg",
+          "name": "Birdie and Up Program — Front",
+          "image": "Final_DAL_2025GolfProgram_26.pdf",
+          "page": 1,
+          "orientation": "portrait",
           "category": "Program"
         },
         {
-          "name": "Birdie and Up — Back",
-          "image": "data/signs/Program_Back.jpg",
+          "name": "Birdie and Up Program — Back",
+          "image": "Final_DAL_2025GolfProgram_26.pdf",
+          "page": 2,
+          "orientation": "portrait",
           "category": "Program"
         }
       ]
@@ -239,13 +245,15 @@
       "title": "Printed Items (8.5x11)",
       "items": [
         {
-          "name": "Check-In Signs",
-          "image": "data/signs/85x11_CheckInSigns.jpg",
+          "name": "Check-In Sign",
+          "image": "data/signs/8.5x11_Printed_CheckIn.jpg",
+          "orientation": "portrait",
           "category": "Printed Items (8.5x11)"
         },
         {
           "name": "Mulligan Rules Sign",
-          "image": "data/signs/85x11_MulliganRulesSign.jpg",
+          "image": "data/signs/8.5x11_Printed_MulliganRules.jpg",
+          "orientation": "portrait",
           "category": "Printed Items (8.5x11)"
         }
       ]
