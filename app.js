@@ -21,6 +21,8 @@ const makeFallbackSrc = (label, width = 1200, height = 700) => {
 };
 
 const isPdfPath = (path) => String(path ?? '').toLowerCase().endsWith('.pdf');
+const isPowerPointPlaceholder = (categoryTitle, itemName) =>
+  categoryTitle === 'Digital items' && String(itemName ?? '').toLowerCase() === 'powerpoint';
 
 const withPdfPage = (path, page) => {
   if (!isPdfPath(path)) return path;
@@ -136,6 +138,7 @@ const buildDashboard = (dataset) => {
       const figure = document.createElement('figure');
       figure.className = 'tile';
       figure.id = `${sectionId}-item-${itemIndex}`;
+      const showPowerPointPlaceholder = isPowerPointPlaceholder(category.title, item.name);
 
       const portraitMode =
         item.orientation === 'portrait' || item.details?.toLowerCase().includes('portrait');
@@ -147,7 +150,20 @@ const buildDashboard = (dataset) => {
       const pdfSource = isPdf ? withPdfPage(item.image, item.page) : null;
       let preview;
 
-      if (isPdf) {
+      if (showPowerPointPlaceholder) {
+        figure.classList.add('tile--placeholder');
+
+        const placeholder = document.createElement('div');
+        placeholder.className = 'tile-placeholder-message';
+        placeholder.textContent = 'PowerPoint coming soon';
+
+        const divider = document.createElement('div');
+        divider.className = 'tile-placeholder-divider';
+
+        preview = document.createElement('div');
+        preview.className = 'tile-placeholder-wrap';
+        preview.append(placeholder, divider);
+      } else if (isPdf) {
         const pdf = document.createElement('iframe');
         pdf.className = 'tile-pdf';
         pdf.src = pdfSource;
@@ -171,6 +187,10 @@ const buildDashboard = (dataset) => {
 
       figure.append(preview, caption);
       tiles.appendChild(figure);
+
+      if (showPowerPointPlaceholder) {
+        return;
+      }
 
       figure.addEventListener('click', () => {
         const source = isPdf ? pdfSource : preview.currentSrc || preview.src || item.image;
