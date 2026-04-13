@@ -227,8 +227,7 @@
       "items": [
         {
           "name": "Birdie and Up Program — Front",
-          "image": "Final_DAL_2025GolfProgram_26.pdf",
-          "page": 1,
+          "image": "data/signs/Front_DAL_2025GolfProgram_26.jpg",
           "orientation": "portrait",
           "category": "Program"
         },
