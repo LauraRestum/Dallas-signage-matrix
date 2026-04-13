@@ -4,22 +4,22 @@
       "title": "30x30 Foam Board (Easel)",
       "items": [
         {
-          "name": "Presenting Sponsor — High Touch Technologies, Inc.",
+          "name": "Presenting Sponsor \u2014 High Touch Technologies, Inc.",
           "image": "data/signs/30x30_Presenting_HighTouch.jpg",
           "category": "30x30 Foam Board (Easel)"
         },
         {
-          "name": "19th Hole Sponsor — Farha Roofing",
+          "name": "19th Hole Sponsor \u2014 Farha Roofing",
           "image": "data/signs/30x30_19thHole_Farha.jpg",
           "category": "30x30 Foam Board (Easel)"
         },
         {
-          "name": "Apparel Sponsor — Under Armour",
+          "name": "Apparel Sponsor \u2014 Under Armour",
           "image": "data/signs/30x30_ApparelSponsor_UA.jpg",
           "category": "30x30 Foam Board (Easel)"
         },
         {
-          "name": "Lunch Sponsor — ADS, Inc.",
+          "name": "Lunch Sponsor \u2014 ADS, Inc.",
           "image": "data/signs/30x30_LunchSponsor_ADS.jpg",
           "category": "30x30 Foam Board (Easel)"
         },
@@ -39,47 +39,47 @@
       "title": "30x18 Staked Sign (Title + Logo)",
       "items": [
         {
-          "name": "Air Cannon Long Drive — IMA, Inc.",
+          "name": "Air Cannon Long Drive \u2014 IMA, Inc.",
           "image": "data/signs/30x18_AirCannon_IMA.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
         },
         {
-          "name": "Mega Putt — Corza Ophthalmology",
+          "name": "Mega Putt \u2014 Corza Ophthalmology",
           "image": "data/signs/30x18_MegaPutt_Corza.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
         },
         {
-          "name": "Driving Range — Moda Sport",
+          "name": "Driving Range \u2014 Moda Sport",
           "image": "data/signs/30x18_DrivingRange_Moda.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
         },
         {
-          "name": "Closest to the Pin — Progressive Packaging",
+          "name": "Closest to the Pin \u2014 Progressive Packaging",
           "image": "data/signs/30x18_ClosestToPin_Progressive.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
         },
         {
-          "name": "Corporate Sponsor — Six Meridian",
+          "name": "Corporate Sponsor \u2014 Six Meridian",
           "image": "data/signs/30x18_CorporateSponsor_SixMeridian.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
         },
         {
-          "name": "Corporate Sponsor — LC Industries Foundation",
+          "name": "Corporate Sponsor \u2014 LC Industries Foundation",
           "image": "data/signs/30x18_CorporateSponsor_LCIndustries.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
         },
         {
-          "name": "Corporate Sponsor — S.P. Richards Company",
+          "name": "Corporate Sponsor \u2014 S.P. Richards Company",
           "image": "data/signs/30x18_CorporateSponsor_SPR.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
         },
         {
-          "name": "Corporate Sponsor — Allen Exploration",
+          "name": "Corporate Sponsor \u2014 Allen Exploration",
           "image": "data/signs/30x18_CorporateSponsor_Allen.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
         },
         {
-          "name": "Sideline Grill Sponsor — Massif",
+          "name": "Sideline Grill Sponsor \u2014 Massif",
           "image": "data/signs/30x18_SidelineGrill_Massif.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
         }
@@ -93,88 +93,89 @@
           "image": "data/signs/6x4_ClingBeverageCart_Boingo.jpg",
           "category": "6x4 Cling"
         }
-      ]
+      ],
+      "printReadyFile": "data/signs/6x4_ClingBeverageCart_Boingo.png"
     },
     {
       "title": "24x18 Staked Sign (Thank you to our sponsor + logo)",
       "items": [
         {
-          "name": "Tee Box — Polara Enterprises",
+          "name": "Tee Box \u2014 Polara Enterprises",
           "image": "data/signs/24x18_TeeBox_Polara.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Tee Box — AFFLINK",
+          "name": "Tee Box \u2014 AFFLINK",
           "image": "data/signs/24x18_TeeBox_AFFLINK.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Tee Box — Enza Financial, LLC",
+          "name": "Tee Box \u2014 Enza Financial, LLC",
           "image": "data/signs/24x18_TeeBox_Enza.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Tee Box — Ubeo Business Services",
+          "name": "Tee Box \u2014 Ubeo Business Services",
           "image": "data/signs/24x18_TeeBox_Ubeo.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Tee Box — WarmKraft",
+          "name": "Tee Box \u2014 WarmKraft",
           "image": "data/signs/24x18_TeeBox_WarmKraft.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Tee Box — Scarborough Co.",
+          "name": "Tee Box \u2014 Scarborough Co.",
           "image": "data/signs/24x18_TeeBox_Scarborough.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Tee Box — CAPTRUST",
+          "name": "Tee Box \u2014 CAPTRUST",
           "image": "data/signs/24x18_TeeBox_CAPTRUST.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Tee Box — SAFS, Inc.",
+          "name": "Tee Box \u2014 SAFS, Inc.",
           "image": "data/signs/24x18_TeeBox_SAFS.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Tee Box — Steward Printing",
+          "name": "Tee Box \u2014 Steward Printing",
           "image": "data/signs/24x18_TeeBox_StewardPrinting.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Birdie — Belleville Boot Company",
+          "name": "Birdie \u2014 Belleville Boot Company",
           "image": "data/signs/24x18_Birdie_BellevilleBoot.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Birdie — Summit Plastics",
+          "name": "Birdie \u2014 Summit Plastics",
           "image": "data/signs/24x18_Birdie_SummitPlastics.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Birdie — Faro International",
+          "name": "Birdie \u2014 Faro International",
           "image": "data/signs/24x18_Birdie_Faro.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Birdie — eShipping",
+          "name": "Birdie \u2014 eShipping",
           "image": "data/signs/24x18_Birdie_eShipping.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Par — Texcel",
+          "name": "Par \u2014 Texcel",
           "image": "data/signs/24x18_Par_Texcel.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Par — RediWrite Co., Ltd.",
+          "name": "Par \u2014 RediWrite Co., Ltd.",
           "image": "data/signs/24x18_Par_RediWrite.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Par — WorkQuest",
+          "name": "Par \u2014 WorkQuest",
           "image": "data/signs/24x18_Par_WorkQuest.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
@@ -199,17 +200,17 @@
       "title": "X-Banners",
       "items": [
         {
-          "name": "Welcome Banner — Version 1",
+          "name": "Welcome Banner \u2014 Version 1",
           "image": "data/signs/32x70_XBanner_Welcome1.jpg",
           "category": "X-Banners"
         },
         {
-          "name": "Welcome Banner — Version 2",
+          "name": "Welcome Banner \u2014 Version 2",
           "image": "data/signs/32x70_XBanner_Welcome2.jpg",
           "category": "X-Banners"
         },
         {
-          "name": "Welcome Banner — Version 3",
+          "name": "Welcome Banner \u2014 Version 3",
           "image": "data/signs/32x70_XBanner_Welcome3.jpg",
           "category": "X-Banners"
         }
@@ -229,13 +230,13 @@
       "title": "12x18 Podium Signs",
       "items": [
         {
-          "name": "Podium Sign — White Logo",
+          "name": "Podium Sign \u2014 White Logo",
           "image": "data/signs/12x18_PodiumSign_WHTLogo.jpg",
           "orientation": "portrait",
           "category": "12x18 Podium Signs"
         },
         {
-          "name": "Podium Sign — Color Logo",
+          "name": "Podium Sign \u2014 Color Logo",
           "image": "data/signs/12x18_PodiumSign_CRLLogo.jpg",
           "orientation": "portrait",
           "category": "12x18 Podium Signs"
@@ -246,13 +247,13 @@
       "title": "Program",
       "items": [
         {
-          "name": "Birdie and Up Program — Front",
+          "name": "Birdie and Up Program \u2014 Front",
           "image": "data/signs/Front_DAL_2025GolfProgram_26.jpg",
           "orientation": "portrait",
           "category": "Program"
         },
         {
-          "name": "Birdie and Up Program — Back",
+          "name": "Birdie and Up Program \u2014 Back",
           "image": "data/signs/Back_DAL_2025GolfProgram_26.jpg",
           "orientation": "portrait",
           "category": "Program"
@@ -275,10 +276,41 @@
           "category": "Printed Items (8.5x11)"
         },
         {
-          "name": "Bag Sponsor — Ash Allmond",
+          "name": "Bag Sponsor \u2014 Ash Allmond",
           "image": "data/signs/8.5x11_Printed_AshAllmond.jpg",
           "orientation": "portrait",
           "category": "Printed Items (8.5x11)"
+        }
+      ]
+    },
+    {
+      "title": "Digital items",
+      "printReadyFile": "data/signs/Screen_Welcome.png",
+      "items": [
+        {
+          "name": "PowerPoint",
+          "image": "data/signs/Screen_Welcome.jpg",
+          "category": "Digital items"
+        },
+        {
+          "name": "GPS Screen \u2014 Welcome",
+          "image": "data/signs/Screen_Welcome.jpg",
+          "category": "Digital items"
+        },
+        {
+          "name": "GPS Screen \u2014 Presenting",
+          "image": "data/signs/Screen_PRESENTING.jpg",
+          "category": "Digital items"
+        },
+        {
+          "name": "GPS Screen \u2014 19th Hole",
+          "image": "data/signs/Screen_19THHOLE.jpg",
+          "category": "Digital items"
+        },
+        {
+          "name": "GPS Screen \u2014 SG Richards",
+          "image": "data/signs/Screen_SPR.jpg",
+          "category": "Digital items"
         }
       ]
     }
