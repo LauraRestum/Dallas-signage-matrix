@@ -42,6 +42,11 @@
           "name": "Bag Sponsor — Ash & Almond Charcuterie",
           "image": "data/signs/30x30_BagSponsor_AshAlmond.jpg",
           "category": "30x30 Foam Board (Easel)"
+        },
+        {
+          "name": "All Sponsor Board",
+          "image": "data/signs/30x30_AllSponsor.jpg",
+          "category": "30x30 Foam Board (Easel)"
         }
       ]
     },
@@ -87,6 +92,16 @@
           "name": "Corporate Sponsor — Allen Exploration",
           "image": "data/signs/30x18_CorporateSponsor_Allen.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
+        }
+      ]
+    },
+    {
+      "title": "6x4 Cling",
+      "items": [
+        {
+          "name": "Beverage Cart Sponsor",
+          "image": "data/signs/6x4_ClingBeverageCart_Boingo.jpg",
+          "category": "6x4 Cling"
         }
       ]
     },
@@ -253,8 +268,7 @@
         },
         {
           "name": "Birdie and Up Program — Back",
-          "image": "Final_DAL_2025GolfProgram_26.pdf",
-          "page": 2,
+          "image": "data/signs/Back_DAL_2025GolfProgram_26.jpg",
           "orientation": "portrait",
           "category": "Program"
         }
