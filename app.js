@@ -1,9 +1,22 @@
 const toc = document.getElementById('toc');
 const content = document.getElementById('content');
+const contentStatus = document.getElementById('content-status');
 const modal = document.getElementById('image-modal');
+const modalTitle = document.getElementById('modal-title');
 const modalImage = document.getElementById('modal-image');
 const modalPdf = document.getElementById('modal-pdf');
 const closeButton = document.getElementById('modal-close');
+const searchInput = document.getElementById('search-input');
+const searchClear = document.getElementById('search-clear');
+const searchStatus = document.getElementById('search-status');
+const navToggle = document.getElementById('nav-toggle');
+const sidebar = document.querySelector('.sidebar');
+
+let lastFocusedBeforeModal = null;
+let groupButtonsRef = [];
+let itemButtonsRef = [];
+let tileNodesRef = [];
+let sectionNodesRef = [];
 
 const slugify = (text) =>
   text
@@ -49,14 +62,15 @@ const triggerFileDownload = async (href) => {
 };
 
 const triggerFileBatchDownload = async (files) => {
+  const failures = [];
   for (let index = 0; index < files.length; index += 1) {
     const file = files[index];
     try {
-      // Stagger requests so browsers reliably process each download gesture.
       // eslint-disable-next-line no-await-in-loop
       await triggerFileDownload(file);
     } catch (error) {
       console.error(error);
+      failures.push(file);
     }
 
     if (index < files.length - 1) {
@@ -64,6 +78,7 @@ const triggerFileBatchDownload = async (files) => {
       await new Promise((resolve) => window.setTimeout(resolve, 180));
     }
   }
+  return failures;
 };
 
 const withPdfPage = (path, page) => {
@@ -76,8 +91,6 @@ const withPdfPage = (path, page) => {
 
   if (page) {
     const pageValue = String(page);
-    // Keep a unique URL per tile so embedded PDF viewers don't reuse the first
-    // loaded view for every iframe pointing at the same file.
     queryParams.set('signagePage', pageValue);
     fragmentParams.set('page', pageValue);
   }
@@ -90,34 +103,153 @@ const withPdfPage = (path, page) => {
   return `${basePath}${query ? `?${query}` : ''}#${fragmentParams.toString()}`;
 };
 
+/* ----------------------------- Modal / focus trap ----------------------------- */
+
+const FOCUSABLE_SELECTOR =
+  'a[href], area[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])';
+
+const getFocusable = (root) =>
+  Array.from(root.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
+    (el) => !el.hasAttribute('disabled') && el.offsetParent !== null
+  );
+
+const handleModalKeydown = (event) => {
+  if (event.key === 'Escape') {
+    closeModal();
+    return;
+  }
+  if (event.key !== 'Tab') return;
+  const focusable = getFocusable(modal);
+  if (!focusable.length) {
+    event.preventDefault();
+    return;
+  }
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+};
+
 const openModal = (src, altText, mediaType = 'image') => {
   const isPdf = mediaType === 'pdf';
+  lastFocusedBeforeModal = document.activeElement;
+
+  modalTitle.textContent = altText || 'Signage preview';
   modalImage.style.display = isPdf ? 'none' : 'block';
   modalPdf.style.display = isPdf ? 'block' : 'none';
 
   if (isPdf) {
     modalPdf.src = src;
+    modalPdf.title = `${altText || 'Signage'} PDF preview`;
+    modalImage.src = '';
+    modalImage.alt = '';
   } else {
     modalImage.src = src;
-    modalImage.alt = altText;
+    modalImage.alt = altText || '';
+    modalPdf.src = '';
   }
 
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
+  document.addEventListener('keydown', handleModalKeydown);
+  // Focus close button after paint so the dialog reads cleanly to AT.
+  requestAnimationFrame(() => closeButton.focus());
 };
 
 const closeModal = () => {
+  if (!modal.classList.contains('open')) return;
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden', 'true');
   modalImage.src = '';
+  modalImage.alt = '';
   modalPdf.src = '';
   document.body.style.overflow = '';
+  document.removeEventListener('keydown', handleModalKeydown);
+  if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
+    lastFocusedBeforeModal.focus();
+  }
+  lastFocusedBeforeModal = null;
 };
+
+/* ----------------------------- Sidebar scroll-spy ----------------------------- */
+
+const isWithinViewport = (element, container) => {
+  if (!element || !container) return false;
+  const elRect = element.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
+  return elRect.top >= containerRect.top && elRect.bottom <= containerRect.bottom;
+};
+
+const gentleScrollIntoView = (element, container) => {
+  if (!element || !container) return;
+  if (isWithinViewport(element, container)) return;
+  element.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+};
+
+/* ----------------------------- Search / filter ----------------------------- */
+
+const normalise = (text) => String(text ?? '').toLowerCase().trim();
+
+const applyFilter = (rawQuery) => {
+  const query = normalise(rawQuery);
+  const hasQuery = query.length > 0;
+  searchClear.hidden = !hasQuery;
+
+  let matchingTiles = 0;
+  const sectionMatchCounts = new Map();
+
+  tileNodesRef.forEach(({ figure, item, categoryTitle }) => {
+    const haystack = `${item.name} ${categoryTitle} ${item.details || ''}`.toLowerCase();
+    const matches = !hasQuery || haystack.includes(query);
+    figure.hidden = !matches;
+    if (matches) {
+      matchingTiles += 1;
+      sectionMatchCounts.set(figure.dataset.sectionId, (sectionMatchCounts.get(figure.dataset.sectionId) || 0) + 1);
+    }
+  });
+
+  sectionNodesRef.forEach((section) => {
+    const count = sectionMatchCounts.get(section.id) || 0;
+    section.hidden = hasQuery && count === 0;
+  });
+
+  groupButtonsRef.forEach((button) => {
+    const count = sectionMatchCounts.get(button.dataset.target) || 0;
+    const wrap = button.closest('.nav-group');
+    if (wrap) wrap.hidden = hasQuery && count === 0;
+  });
+
+  itemButtonsRef.forEach(({ button, item, categoryTitle }) => {
+    const haystack = `${item.name} ${categoryTitle}`.toLowerCase();
+    const matches = !hasQuery || haystack.includes(query);
+    button.closest('li').hidden = !matches;
+  });
+
+  if (!hasQuery) {
+    searchStatus.textContent = '';
+  } else if (matchingTiles === 0) {
+    searchStatus.textContent = `No signs match "${rawQuery}".`;
+  } else {
+    searchStatus.textContent = `${matchingTiles} sign${matchingTiles === 1 ? '' : 's'} match "${rawQuery}".`;
+  }
+};
+
+/* ----------------------------- Dashboard render ----------------------------- */
 
 const buildDashboard = (dataset) => {
   const groupButtons = [];
   const itemButtons = [];
+  const tileNodes = [];
+
+  // Clear prior state (in case of rebuild).
+  toc.innerHTML = '';
+  // Leave status node in place; we'll remove it after successful render.
 
   dataset.categories.forEach((category, categoryIndex) => {
     const sectionId = `section-${slugify(category.title)}-${categoryIndex}`;
@@ -126,6 +258,7 @@ const buildDashboard = (dataset) => {
     groupWrap.className = 'nav-group';
 
     const groupButton = document.createElement('button');
+    groupButton.type = 'button';
     groupButton.className = 'nav-group-title';
     groupButton.textContent = category.title;
     groupButton.dataset.target = sectionId;
@@ -138,12 +271,13 @@ const buildDashboard = (dataset) => {
 
       const listItem = document.createElement('li');
       const itemButton = document.createElement('button');
+      itemButton.type = 'button';
       itemButton.className = 'nav-item';
       itemButton.textContent = item.name;
       itemButton.dataset.target = tileId;
       listItem.appendChild(itemButton);
       list.appendChild(listItem);
-      itemButtons.push(itemButton);
+      itemButtons.push({ button: itemButton, item, categoryTitle: category.title });
     });
 
     const derivedItemDownloads = category.items
@@ -154,28 +288,49 @@ const buildDashboard = (dataset) => {
       : hasDownloadFiles(derivedItemDownloads)
         ? [...new Set(derivedItemDownloads)]
         : [];
-    const downloadHref = downloadFiles[0] || category.printReadyFile || category.downloadFile || '';
-    const downloadLink = document.createElement('a');
-    downloadLink.className = 'nav-download';
-    downloadLink.textContent = 'Download print-ready version';
+    const singleDownloadHref =
+      downloadFiles.length === 1 ? downloadFiles[0] : category.printReadyFile || category.downloadFile || '';
 
+    let downloadControl;
     if (downloadFiles.length > 1) {
-      downloadLink.href = '#';
-      downloadLink.addEventListener('click', (event) => {
-        event.preventDefault();
-        triggerFileBatchDownload(downloadFiles);
+      downloadControl = document.createElement('button');
+      downloadControl.type = 'button';
+      downloadControl.className = 'nav-download';
+      downloadControl.textContent = `Download all (${downloadFiles.length} files)`;
+      downloadControl.addEventListener('click', async () => {
+        const proceed = window.confirm(
+          `This will download ${downloadFiles.length} files. Continue?`
+        );
+        if (!proceed) return;
+        downloadControl.disabled = true;
+        const originalLabel = downloadControl.textContent;
+        downloadControl.textContent = 'Downloading…';
+        const failures = await triggerFileBatchDownload(downloadFiles);
+        downloadControl.disabled = false;
+        if (failures.length) {
+          downloadControl.textContent = `${failures.length} file${failures.length === 1 ? '' : 's'} failed — retry`;
+        } else {
+          downloadControl.textContent = 'Downloaded ✓';
+          window.setTimeout(() => {
+            downloadControl.textContent = originalLabel;
+          }, 2400);
+        }
       });
-    } else if (downloadHref) {
-      downloadLink.href = downloadHref;
-      downloadLink.setAttribute('download', '');
+    } else if (singleDownloadHref) {
+      downloadControl = document.createElement('a');
+      downloadControl.className = 'nav-download';
+      downloadControl.textContent = 'Download print-ready version';
+      downloadControl.href = singleDownloadHref;
+      downloadControl.setAttribute('download', '');
     } else {
-      downloadLink.href = '#';
-      downloadLink.setAttribute('aria-disabled', 'true');
-      downloadLink.classList.add('nav-download--disabled');
-      downloadLink.addEventListener('click', (event) => event.preventDefault());
+      downloadControl = document.createElement('button');
+      downloadControl.type = 'button';
+      downloadControl.className = 'nav-download nav-download--disabled';
+      downloadControl.textContent = 'Print-ready version unavailable';
+      downloadControl.disabled = true;
     }
 
-    groupWrap.append(groupButton, list, downloadLink);
+    groupWrap.append(groupButton, list, downloadControl);
     toc.appendChild(groupWrap);
     groupButtons.push(groupButton);
 
@@ -183,8 +338,10 @@ const buildDashboard = (dataset) => {
     section.className = 'signage-section';
     section.id = sectionId;
     section.dataset.category = category.title;
+    section.setAttribute('aria-labelledby', `${sectionId}-heading`);
 
     const heading = document.createElement('h2');
+    heading.id = `${sectionId}-heading`;
     heading.textContent = category.title;
 
     const tiles = document.createElement('div');
@@ -194,6 +351,7 @@ const buildDashboard = (dataset) => {
       const figure = document.createElement('figure');
       figure.className = 'tile';
       figure.id = `${sectionId}-item-${itemIndex}`;
+      figure.dataset.sectionId = sectionId;
       const showPowerPointPlaceholder = isPowerPointPlaceholder(category.title, item.name);
 
       const portraitMode =
@@ -240,7 +398,6 @@ const buildDashboard = (dataset) => {
 
       const caption = document.createElement('figcaption');
       caption.textContent = item.name;
-
       figure.append(preview, caption);
 
       if (hasCustomDownload(item)) {
@@ -249,25 +406,56 @@ const buildDashboard = (dataset) => {
         downloadButton.href = item.downloadFile;
         downloadButton.textContent = item.downloadLabel || 'Download';
         downloadButton.setAttribute('download', '');
+        // Prevent the tile-level click handler from opening the modal
+        // whenever someone just wants to grab the file.
+        downloadButton.addEventListener('click', (event) => event.stopPropagation());
         figure.appendChild(downloadButton);
       }
 
       tiles.appendChild(figure);
+
+      tileNodes.push({
+        figure,
+        item,
+        categoryTitle: category.title,
+        sectionId,
+        isPdf,
+        pdfSource,
+        isPlaceholder: showPowerPointPlaceholder
+      });
 
       if (showPowerPointPlaceholder) {
         const divider = document.createElement('div');
         divider.className = 'tiles-divider';
         divider.setAttribute('aria-hidden', 'true');
         tiles.appendChild(divider);
-      }
-
-      if (showPowerPointPlaceholder) {
         return;
       }
 
-      figure.addEventListener('click', () => {
-        const source = isPdf ? pdfSource : preview.currentSrc || preview.src || item.image;
+      // Make tile fully keyboard-activatable.
+      figure.setAttribute('role', 'button');
+      figure.setAttribute('tabindex', '0');
+      figure.setAttribute('aria-label', `Open preview for ${item.name}`);
+
+      const activate = () => {
+        const previewEl = figure.querySelector('img, iframe');
+        const source = isPdf
+          ? pdfSource
+          : (previewEl && (previewEl.currentSrc || previewEl.src)) || item.image;
         openModal(source, item.name, isPdf ? 'pdf' : 'image');
+      };
+
+      figure.addEventListener('click', (event) => {
+        // Ignore clicks that originated on the tile-level download anchor.
+        if (event.target.closest('.tile-download')) return;
+        activate();
+      });
+
+      figure.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          activate();
+        }
       });
     });
 
@@ -277,11 +465,13 @@ const buildDashboard = (dataset) => {
 
   groupButtons.forEach((button) => {
     button.addEventListener('click', () => {
-      document.getElementById(button.dataset.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const target = document.getElementById(button.dataset.target);
+      target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      closeMobileNavIfNeeded();
     });
   });
 
-  itemButtons.forEach((button) => {
+  itemButtons.forEach(({ button }) => {
     button.addEventListener('click', () => {
       const target = document.getElementById(button.dataset.target);
       target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -289,79 +479,157 @@ const buildDashboard = (dataset) => {
         target?.classList.add('active-item');
         setTimeout(() => target?.classList.remove('active-item'), 900);
       });
+      closeMobileNavIfNeeded();
     });
   });
 
   const sectionNodes = [...document.querySelectorAll('.signage-section')];
-  const observer = new IntersectionObserver(
+
+  // Expose for filter logic.
+  groupButtonsRef = groupButtons;
+  itemButtonsRef = itemButtons;
+  tileNodesRef = tileNodes;
+  sectionNodesRef = sectionNodes;
+
+  // Scroll-spy: highlight the visible section's group and the *actually visible* tile.
+  let lastActiveTileId = null;
+  const tileObserver = new IntersectionObserver(
     (entries) => {
-      const visible = entries
+      const visibleTile = entries
         .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visibleTile) return;
 
-      if (!visible.length) return;
+      const tileId = visibleTile.target.id;
+      if (tileId === lastActiveTileId) return;
+      lastActiveTileId = tileId;
 
-      const activeSectionId = visible[0].target.id;
+      const sectionId = visibleTile.target.dataset.sectionId;
       let activeGroupButton = null;
-
       groupButtons.forEach((button) => {
-        const isActive = button.dataset.target === activeSectionId;
+        const isActive = button.dataset.target === sectionId;
         button.classList.toggle('active', isActive);
-        if (isActive) {
-          activeGroupButton = button;
-        }
+        if (isActive) activeGroupButton = button;
       });
 
-      const activeSection = document.getElementById(activeSectionId);
-      const activeTileId = activeSection?.querySelector('.tile')?.id;
       let activeItemButton = null;
-
-      itemButtons.forEach((button) => {
-        const isActive = button.dataset.target === activeTileId;
+      itemButtons.forEach(({ button }) => {
+        const isActive = button.dataset.target === tileId;
         button.classList.toggle('active-item', isActive);
-        if (isActive) {
-          activeItemButton = button;
-        }
+        if (isActive) activeItemButton = button;
       });
 
+      // Only pull the sidebar along if the current active nav item is actually
+      // off-screen — otherwise the sidebar scroll should remain user-controlled.
       const navTarget = activeItemButton || activeGroupButton;
-      navTarget?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      gentleScrollIntoView(navTarget, toc);
     },
     {
       root: null,
-      threshold: [0.2, 0.35, 0.5, 0.8],
-      rootMargin: '-12% 0px -55% 0px'
+      threshold: [0.25, 0.5, 0.75],
+      rootMargin: '-15% 0px -45% 0px'
     }
   );
 
-  sectionNodes.forEach((section) => observer.observe(section));
+  tileNodes.forEach(({ figure }) => tileObserver.observe(figure));
+
+  // Remove the loading status once we have rendered content.
+  if (contentStatus && contentStatus.parentNode) {
+    contentStatus.parentNode.removeChild(contentStatus);
+  }
 };
 
-fetch('data/signage.json')
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error('Unable to load signage dataset.');
-    }
-    return response.json();
-  })
-  .then(buildDashboard)
-  .catch((error) => {
-    const message = document.createElement('p');
-    message.textContent = error.message;
-    message.style.color = '#b00020';
-    content.appendChild(message);
+/* ----------------------------- Mobile drawer ----------------------------- */
+
+const isMobileViewport = () => window.matchMedia('(max-width: 760px)').matches;
+
+const closeMobileNavIfNeeded = () => {
+  if (!isMobileViewport()) return;
+  sidebar.classList.remove('sidebar--open');
+  navToggle.setAttribute('aria-expanded', 'false');
+};
+
+if (navToggle) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = sidebar.classList.toggle('sidebar--open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
   });
+}
+
+/* ----------------------------- Wire-up ----------------------------- */
+
+const renderError = (error) => {
+  contentStatus.innerHTML = '';
+  const wrap = document.createElement('div');
+  wrap.className = 'content-error';
+
+  const headline = document.createElement('p');
+  headline.className = 'content-error-headline';
+  headline.textContent = 'Unable to load signage.';
+
+  const detail = document.createElement('p');
+  detail.className = 'content-error-detail';
+  detail.textContent = error?.message || 'An unknown error occurred.';
+
+  const retry = document.createElement('button');
+  retry.type = 'button';
+  retry.className = 'content-error-retry';
+  retry.textContent = 'Try again';
+  retry.addEventListener('click', loadData);
+
+  wrap.append(headline, detail, retry);
+  contentStatus.appendChild(wrap);
+};
+
+const loadData = () => {
+  contentStatus.innerHTML = '<p>Loading signage&hellip;</p>';
+  fetch('data/signage.json')
+    .then((response) => {
+      if (!response.ok) throw new Error('Unable to load signage dataset.');
+      return response.json();
+    })
+    .then(buildDashboard)
+    .catch(renderError);
+};
+
+loadData();
 
 closeButton.addEventListener('click', closeModal);
 
 modal.addEventListener('click', (event) => {
-  if (event.target === modal) {
-    closeModal();
-  }
+  if (event.target === modal) closeModal();
 });
 
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {
-    closeModal();
-  }
+// Search wiring
+let searchDebounce;
+if (searchInput) {
+  searchInput.addEventListener('input', (event) => {
+    const value = event.target.value;
+    window.clearTimeout(searchDebounce);
+    searchDebounce = window.setTimeout(() => applyFilter(value), 90);
+  });
+  searchInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && searchInput.value) {
+      event.preventDefault();
+      searchInput.value = '';
+      applyFilter('');
+      searchInput.focus();
+    }
+  });
+}
+
+if (searchClear) {
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    applyFilter('');
+    searchInput.focus();
+  });
+}
+
+// Close drawer when tapping outside it on mobile.
+document.addEventListener('click', (event) => {
+  if (!isMobileViewport()) return;
+  if (!sidebar.classList.contains('sidebar--open')) return;
+  if (sidebar.contains(event.target) || navToggle.contains(event.target)) return;
+  closeMobileNavIfNeeded();
 });
