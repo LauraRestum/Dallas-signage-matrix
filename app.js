@@ -25,14 +25,44 @@ const isPowerPointPlaceholder = (categoryTitle, itemName) =>
   categoryTitle === 'Digital items' && String(itemName ?? '').toLowerCase() === 'powerpoint';
 const hasDownloadFiles = (files) => Array.isArray(files) && files.length > 0;
 
-const triggerFileDownload = (href) => {
+const filenameFromPath = (path) => String(path ?? '').split('/').pop()?.split('?')[0] || 'download';
+
+const triggerFileDownload = async (href) => {
+  const response = await fetch(href);
+  if (!response.ok) {
+    throw new Error(`Failed to download ${href}`);
+  }
+
+  const blob = await response.blob();
+  const objectUrl = URL.createObjectURL(blob);
+
   const downloadLink = document.createElement('a');
-  downloadLink.href = href;
-  downloadLink.setAttribute('download', '');
+  downloadLink.href = objectUrl;
+  downloadLink.download = filenameFromPath(href);
   downloadLink.style.display = 'none';
   document.body.appendChild(downloadLink);
   downloadLink.click();
   downloadLink.remove();
+
+  window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+};
+
+const triggerFileBatchDownload = async (files) => {
+  for (let index = 0; index < files.length; index += 1) {
+    const file = files[index];
+    try {
+      // Stagger requests so browsers reliably process each download gesture.
+      // eslint-disable-next-line no-await-in-loop
+      await triggerFileDownload(file);
+    } catch (error) {
+      console.error(error);
+    }
+
+    if (index < files.length - 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise((resolve) => window.setTimeout(resolve, 180));
+    }
+  }
 };
 
 const withPdfPage = (path, page) => {
@@ -115,7 +145,14 @@ const buildDashboard = (dataset) => {
       itemButtons.push(itemButton);
     });
 
-    const downloadFiles = hasDownloadFiles(category.printReadyFiles) ? category.printReadyFiles : [];
+    const derivedItemDownloads = category.items
+      .map((item) => item.printReadyFile || item.downloadFile || item.image)
+      .filter(Boolean);
+    const downloadFiles = hasDownloadFiles(category.printReadyFiles)
+      ? category.printReadyFiles
+      : hasDownloadFiles(derivedItemDownloads)
+        ? [...new Set(derivedItemDownloads)]
+        : [];
     const downloadHref = downloadFiles[0] || category.printReadyFile || category.downloadFile || '';
     const downloadLink = document.createElement('a');
     downloadLink.className = 'nav-download';
@@ -125,9 +162,7 @@ const buildDashboard = (dataset) => {
       downloadLink.href = '#';
       downloadLink.addEventListener('click', (event) => {
         event.preventDefault();
-        downloadFiles.forEach((file) => {
-          triggerFileDownload(file);
-        });
+        triggerFileBatchDownload(downloadFiles);
       });
     } else if (downloadHref) {
       downloadLink.href = downloadHref;
