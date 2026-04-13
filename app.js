@@ -362,6 +362,7 @@ const buildDashboard = (dataset) => {
       const fallbackSrc = makeFallbackSrc(item.name, portraitMode ? 800 : 1200, portraitMode ? 1400 : 700);
       const isPdf = isPdfPath(item.image);
       const pdfSource = isPdf ? withPdfPage(item.image, item.page) : null;
+      const isPendingArt = item.pending === true || !item.image;
       let preview;
 
       if (showPowerPointPlaceholder) {
@@ -377,6 +378,20 @@ const buildDashboard = (dataset) => {
         preview = document.createElement('div');
         preview.className = 'tile-placeholder-wrap';
         preview.append(placeholder, divider);
+      } else if (isPendingArt) {
+        figure.classList.add('tile--placeholder', 'tile--pending');
+
+        const placeholder = document.createElement('div');
+        placeholder.className = 'tile-placeholder-message';
+        placeholder.textContent = 'Awaiting artwork';
+
+        const note = document.createElement('div');
+        note.className = 'tile-pending-note';
+        note.textContent = item.pendingNote || 'Design pending';
+
+        preview = document.createElement('div');
+        preview.className = 'tile-placeholder-wrap tile-placeholder-wrap--pending';
+        preview.append(placeholder, note);
       } else if (isPdf) {
         const pdf = document.createElement('iframe');
         pdf.className = 'tile-pdf';
@@ -399,6 +414,17 @@ const buildDashboard = (dataset) => {
       const caption = document.createElement('figcaption');
       caption.textContent = item.name;
       figure.append(preview, caption);
+
+      // Items that *have* artwork but still need regeneration (e.g. pending a
+      // new sponsor logo) get a visible "pending updates" banner beneath the
+      // caption so editors aren't fooled into thinking the file is final.
+      if (!isPendingArt && item.pendingNote) {
+        figure.classList.add('tile--has-pending-note');
+        const noteBanner = document.createElement('div');
+        noteBanner.className = 'tile-pending-banner';
+        noteBanner.textContent = item.pendingNote;
+        figure.appendChild(noteBanner);
+      }
 
       if (hasCustomDownload(item)) {
         const downloadButton = document.createElement('a');
@@ -429,6 +455,14 @@ const buildDashboard = (dataset) => {
         divider.className = 'tiles-divider';
         divider.setAttribute('aria-hidden', 'true');
         tiles.appendChild(divider);
+        return;
+      }
+
+      if (isPendingArt) {
+        // No artwork yet — nothing to open in the modal, so skip the click
+        // handler. The tile still appears in the grid (and in search) as a
+        // visible "slot" so editors can see what's missing.
+        figure.setAttribute('aria-label', `${item.name} — awaiting artwork`);
         return;
       }
 

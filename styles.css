@@ -447,6 +447,44 @@ body {
   background: var(--accent-green);
 }
 
+/* "Awaiting artwork" slot — a sponsor with no design delivered yet. */
+.tile--pending .tile-placeholder-wrap--pending {
+  gap: 0.5rem;
+  background: repeating-linear-gradient(
+    45deg,
+    #f7f9fc,
+    #f7f9fc 14px,
+    #eef2f7 14px,
+    #eef2f7 28px
+  );
+}
+
+.tile--pending .tile-placeholder-message {
+  color: #8a5a00;
+}
+
+.tile-pending-note {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
+  padding: 0 1rem;
+  line-height: 1.35;
+}
+
+/* Banner shown on tiles that *have* art but still need regeneration. */
+.tile-pending-banner {
+  margin: 0.1rem 0.6rem 0.6rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 6px;
+  background: #fff3d4;
+  color: #7a5500;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid #f2dd9c;
+}
+
 .tiles-divider {
   grid-column: 1 / -1;
   height: 1px;
