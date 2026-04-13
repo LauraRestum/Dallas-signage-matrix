@@ -256,17 +256,30 @@ const buildDashboard = (dataset) => {
       if (!visible.length) return;
 
       const activeSectionId = visible[0].target.id;
+      let activeGroupButton = null;
 
       groupButtons.forEach((button) => {
-        button.classList.toggle('active', button.dataset.target === activeSectionId);
+        const isActive = button.dataset.target === activeSectionId;
+        button.classList.toggle('active', isActive);
+        if (isActive) {
+          activeGroupButton = button;
+        }
       });
 
       const activeSection = document.getElementById(activeSectionId);
       const activeTileId = activeSection?.querySelector('.tile')?.id;
+      let activeItemButton = null;
 
       itemButtons.forEach((button) => {
-        button.classList.toggle('active-item', button.dataset.target === activeTileId);
+        const isActive = button.dataset.target === activeTileId;
+        button.classList.toggle('active-item', isActive);
+        if (isActive) {
+          activeItemButton = button;
+        }
       });
+
+      const navTarget = activeItemButton || activeGroupButton;
+      navTarget?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     },
     {
       root: null,
