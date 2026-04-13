@@ -311,6 +311,12 @@
           "image": "data/signs/Screen_SPR.jpg",
           "category": "Digital items"
         }
+      ],
+      "printReadyFiles": [
+        "data/signs/Screen_Welcome.png",
+        "data/signs/Screen_PRESENTING.png",
+        "data/signs/Screen_19THHOLE.png",
+        "data/signs/Screen_SPR.png"
       ]
     }
   ]

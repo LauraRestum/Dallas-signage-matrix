@@ -236,6 +236,13 @@ body {
   background: var(--accent-green);
 }
 
+.tiles-divider {
+  grid-column: 1 / -1;
+  height: 1px;
+  background: #d2dbe6;
+  margin: -0.2rem 0 0.2rem;
+}
+
 .modal {
   position: fixed;
   inset: 0;
