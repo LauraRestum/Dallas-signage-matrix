@@ -206,19 +206,47 @@
       ]
     },
     {
+      "title": "12x18 Podium Signs",
+      "items": [
+        {
+          "name": "Podium Sign — Version 1",
+          "image": "data/signs/12x18_PodiumSign_1.jpg",
+          "category": "12x18 Podium Signs"
+        },
+        {
+          "name": "Podium Sign — Version 2",
+          "image": "data/signs/12x18_PodiumSign_2.jpg",
+          "category": "12x18 Podium Signs"
+        }
+      ]
+    },
+    {
       "title": "Program",
       "items": [
         {
           "name": "Birdie and Up — Front",
-          "image": "Final_DAL_2025GolfProgram_26.pdf",
-          "page": 1,
+          "image": "data/signs/Program_Front.jpg",
           "category": "Program"
         },
         {
           "name": "Birdie and Up — Back",
-          "image": "Final_DAL_2025GolfProgram_26.pdf",
-          "page": 2,
+          "image": "data/signs/Program_Back.jpg",
           "category": "Program"
+        }
+      ]
+    },
+    {
+      "title": "Printed Items (8.5x11)",
+      "items": [
+        {
+          "name": "Check-In Signs",
+          "image": "data/signs/85x11_CheckInSigns.jpg",
+          "category": "Printed Items (8.5x11)"
+        },
+        {
+          "name": "Mulligan Rules Sign",
+          "image": "data/signs/85x11_MulliganRulesSign.jpg",
+          "category": "Printed Items (8.5x11)"
         }
       ]
     }
