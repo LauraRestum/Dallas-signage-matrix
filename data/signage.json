@@ -216,6 +216,16 @@
       ]
     },
     {
+      "title": "7x4 Mesh Banners",
+      "items": [
+        {
+          "name": "Welcome Mesh Banner",
+          "image": "data/signs/7x4_MeshBanner_DALGolf26.jpg",
+          "category": "7x4 Mesh Banners"
+        }
+      ]
+    },
+    {
       "title": "12x18 Podium Signs",
       "items": [
         {
