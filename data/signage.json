@@ -82,6 +82,11 @@
           "name": "Sideline Grill Sponsor \u2014 Massif",
           "image": "data/signs/30x18_SidelineGrill_Massif.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
+        },
+        {
+          "name": "Huddle Sponsor \u2014 Vorndao",
+          "image": "data/signs/30x18_Huddle_Vorndao.jpg",
+          "category": "30x18 Staked Sign (Title + Logo)"
         }
       ]
     },
@@ -142,6 +147,12 @@
         {
           "name": "Tee Box \u2014 Steward Printing",
           "image": "data/signs/24x18_TeeBox_StewardPrinting.jpg",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+        },
+        {
+          "name": "Tee Box \u2014 Ed \"Too Tall\" Jones",
+          "pending": true,
+          "pendingNote": "Awaiting logo from development",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
@@ -232,6 +243,7 @@
         {
           "name": "Welcome Mesh Banner",
           "image": "data/signs/7X4_meshbanner-2.jpg",
+          "pendingNote": "Pending updates \u2014 awaiting Ed \"Too Tall\" Jones logo",
           "category": "7x4 Mesh Banners"
         }
       ]
@@ -260,12 +272,14 @@
           "name": "Birdie and Up Program \u2014 Front",
           "image": "data/signs/Front_DAL_2025GolfProgram_26.jpg",
           "orientation": "portrait",
+          "pendingNote": "Pending updates \u2014 awaiting Ed \"Too Tall\" Jones logo",
           "category": "Program"
         },
         {
           "name": "Birdie and Up Program \u2014 Back",
           "image": "data/signs/Back_2025GolfProgram_26_1.jpg",
           "orientation": "portrait",
+          "pendingNote": "Pending updates \u2014 awaiting Ed \"Too Tall\" Jones logo",
           "category": "Program"
         }
       ]
