@@ -23,6 +23,17 @@ const makeFallbackSrc = (label, width = 1200, height = 700) => {
 const isPdfPath = (path) => String(path ?? '').toLowerCase().endsWith('.pdf');
 const isPowerPointPlaceholder = (categoryTitle, itemName) =>
   categoryTitle === 'Digital items' && String(itemName ?? '').toLowerCase() === 'powerpoint';
+const hasDownloadFiles = (files) => Array.isArray(files) && files.length > 0;
+
+const triggerFileDownload = (href) => {
+  const downloadLink = document.createElement('a');
+  downloadLink.href = href;
+  downloadLink.setAttribute('download', '');
+  downloadLink.style.display = 'none';
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  downloadLink.remove();
+};
 
 const withPdfPage = (path, page) => {
   if (!isPdfPath(path)) return path;
@@ -104,12 +115,21 @@ const buildDashboard = (dataset) => {
       itemButtons.push(itemButton);
     });
 
-    const downloadHref = category.printReadyFile || category.downloadFile || '';
+    const downloadFiles = hasDownloadFiles(category.printReadyFiles) ? category.printReadyFiles : [];
+    const downloadHref = downloadFiles[0] || category.printReadyFile || category.downloadFile || '';
     const downloadLink = document.createElement('a');
     downloadLink.className = 'nav-download';
     downloadLink.textContent = 'Download print-ready version';
 
-    if (downloadHref) {
+    if (downloadFiles.length > 1) {
+      downloadLink.href = '#';
+      downloadLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        downloadFiles.forEach((file) => {
+          triggerFileDownload(file);
+        });
+      });
+    } else if (downloadHref) {
       downloadLink.href = downloadHref;
       downloadLink.setAttribute('download', '');
     } else {
@@ -187,6 +207,13 @@ const buildDashboard = (dataset) => {
 
       figure.append(preview, caption);
       tiles.appendChild(figure);
+
+      if (showPowerPointPlaceholder) {
+        const divider = document.createElement('div');
+        divider.className = 'tiles-divider';
+        divider.setAttribute('aria-hidden', 'true');
+        tiles.appendChild(divider);
+      }
 
       if (showPowerPointPlaceholder) {
         return;
