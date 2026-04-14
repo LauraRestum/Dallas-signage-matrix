@@ -72,7 +72,7 @@ body {
 
 .app-layout {
   display: grid;
-  grid-template-columns: minmax(280px, 25vw) 1fr;
+  grid-template-columns: minmax(280px, 340px) 1fr;
   min-height: 100vh;
 }
 
@@ -133,7 +133,29 @@ body {
   background: #fff;
   border: 1px solid var(--mid-gray);
   border-radius: 8px;
-  padding: 0.15rem 0.35rem 0.15rem 0.6rem;
+  padding: 0.15rem 0.35rem 0.15rem 0.55rem;
+}
+
+.search-icon {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-shortcut {
+  flex: 0 0 auto;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  background: var(--light-gray);
+  border: 1px solid var(--mid-gray);
+  border-radius: 4px;
+  padding: 0.05rem 0.35rem;
+  line-height: 1;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.search-field:focus-within .search-shortcut {
+  display: none;
 }
 
 .search-field:focus-within {
@@ -203,6 +225,29 @@ body {
   padding: 0.55rem 0.65rem;
   border-radius: 8px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.nav-count {
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: #fff;
+  border: 1px solid var(--mid-gray);
+  border-radius: 999px;
+  padding: 0.05rem 0.45rem;
+  min-width: 1.6rem;
+  text-align: center;
+}
+
+.nav-group-title.active .nav-count {
+  color: var(--primary-blue);
+  border-color: #c3d9ef;
+  background: #eaf3ff;
 }
 
 .nav-group-title:hover,
@@ -352,18 +397,34 @@ body {
   border-radius: var(--tile-radius);
   overflow: hidden;
   background: #fff;
-  cursor: zoom-in;
   box-shadow: var(--tile-shadow);
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
-.tile:hover {
-  transform: translateY(-2px);
+.tile:hover,
+.tile:focus-within {
+  transform: translateY(-3px);
   box-shadow: var(--tile-shadow-hover);
 }
 
-.tile:focus-visible {
-  box-shadow: var(--focus-ring), var(--tile-shadow-hover);
+.tile-preview {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: zoom-in;
+}
+
+.tile-preview:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--tile-radius);
 }
 
 .tile img {
@@ -390,7 +451,7 @@ body {
   height: clamp(360px, 56vh, 700px);
 }
 
-.tile figcaption {
+.tile-caption {
   margin: 0;
   padding: 0.55rem 0.7rem 0.3rem;
   font-size: 0.92rem;
@@ -563,6 +624,71 @@ body {
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.75);
 }
 
+.modal-download {
+  position: fixed;
+  bottom: calc(1.1rem + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: var(--primary-blue);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.55rem 1.05rem;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.modal-download:hover {
+  background: #eaf3ff;
+}
+
+.modal-download[hidden] {
+  display: none;
+}
+
+/* ----- Back to top ----- */
+
+.back-to-top {
+  position: fixed;
+  right: calc(1.1rem + env(safe-area-inset-right));
+  bottom: calc(1.1rem + env(safe-area-inset-bottom));
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 0;
+  background: var(--primary-blue);
+  color: #fff;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(2, 40, 85, 0.28);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease, background-color 140ms ease;
+  z-index: 90;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top:hover {
+  background: var(--primary-blue-hover);
+}
+
 /* ----- Responsive ----- */
 
 @media (max-width: 1000px) {
@@ -618,7 +744,7 @@ body {
     padding: 1rem 1rem 2.5rem;
   }
 
-  .tile {
+  .tile-preview {
     cursor: pointer;
   }
 }
@@ -627,10 +753,12 @@ body {
   .tile,
   .modal-close,
   .toc,
-  .skip-link {
+  .skip-link,
+  .back-to-top {
     transition: none;
   }
-  .tile:hover {
+  .tile:hover,
+  .tile:focus-within {
     transform: none;
   }
 }
