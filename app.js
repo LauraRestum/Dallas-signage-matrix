@@ -5,12 +5,14 @@ const modal = document.getElementById('image-modal');
 const modalTitle = document.getElementById('modal-title');
 const modalImage = document.getElementById('modal-image');
 const modalPdf = document.getElementById('modal-pdf');
+const modalDownload = document.getElementById('modal-download');
 const closeButton = document.getElementById('modal-close');
 const searchInput = document.getElementById('search-input');
 const searchClear = document.getElementById('search-clear');
 const searchStatus = document.getElementById('search-status');
 const navToggle = document.getElementById('nav-toggle');
 const sidebar = document.querySelector('.sidebar');
+const backToTop = document.getElementById('back-to-top');
 
 let lastFocusedBeforeModal = null;
 let groupButtonsRef = [];
@@ -135,7 +137,7 @@ const handleModalKeydown = (event) => {
   }
 };
 
-const openModal = (src, altText, mediaType = 'image') => {
+const openModal = (src, altText, mediaType = 'image', downloadHref = '') => {
   const isPdf = mediaType === 'pdf';
   lastFocusedBeforeModal = document.activeElement;
 
@@ -154,6 +156,17 @@ const openModal = (src, altText, mediaType = 'image') => {
     modalPdf.src = '';
   }
 
+  if (modalDownload) {
+    if (downloadHref) {
+      modalDownload.hidden = false;
+      modalDownload.href = downloadHref;
+      modalDownload.setAttribute('download', filenameFromPath(downloadHref));
+    } else {
+      modalDownload.hidden = true;
+      modalDownload.removeAttribute('href');
+    }
+  }
+
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
@@ -169,6 +182,10 @@ const closeModal = () => {
   modalImage.src = '';
   modalImage.alt = '';
   modalPdf.src = '';
+  if (modalDownload) {
+    modalDownload.hidden = true;
+    modalDownload.removeAttribute('href');
+  }
   document.body.style.overflow = '';
   document.removeEventListener('keydown', handleModalKeydown);
   if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
@@ -223,6 +240,11 @@ const applyFilter = (rawQuery) => {
     const count = sectionMatchCounts.get(button.dataset.target) || 0;
     const wrap = button.closest('.nav-group');
     if (wrap) wrap.hidden = hasQuery && count === 0;
+    const badge = button.querySelector('.nav-count');
+    if (badge) {
+      const total = Number(badge.dataset.total || 0);
+      badge.textContent = hasQuery ? `${count}/${total}` : String(total);
+    }
   });
 
   itemButtonsRef.forEach(({ button, item, categoryTitle }) => {
@@ -260,8 +282,23 @@ const buildDashboard = (dataset) => {
     const groupButton = document.createElement('button');
     groupButton.type = 'button';
     groupButton.className = 'nav-group-title';
-    groupButton.textContent = category.title;
     groupButton.dataset.target = sectionId;
+
+    const groupLabel = document.createElement('span');
+    groupLabel.className = 'nav-group-label';
+    groupLabel.textContent = category.title;
+
+    const groupCount = document.createElement('span');
+    groupCount.className = 'nav-count';
+    const itemCount = category.items.length;
+    groupCount.dataset.total = String(itemCount);
+    groupCount.textContent = String(itemCount);
+    groupCount.setAttribute(
+      'aria-label',
+      `${itemCount} sign${itemCount === 1 ? '' : 's'}`
+    );
+
+    groupButton.append(groupLabel, groupCount);
 
     const list = document.createElement('ul');
     list.className = 'nav-item-list';
@@ -411,9 +448,40 @@ const buildDashboard = (dataset) => {
         preview = image;
       }
 
-      const caption = document.createElement('figcaption');
+      const caption = document.createElement('div');
+      caption.className = 'tile-caption';
       caption.textContent = item.name;
-      figure.append(preview, caption);
+
+      // Non-interactive tiles (placeholders, awaiting artwork) render preview
+      // + caption inline; interactive tiles wrap the preview media in a real
+      // <button> so keyboard/AT users get proper semantics and we avoid
+      // nesting a link inside a role="button" (WCAG 4.1.2).
+      const isInteractiveTile = !showPowerPointPlaceholder && !isPendingArt;
+
+      if (isInteractiveTile) {
+        const previewButton = document.createElement('button');
+        previewButton.type = 'button';
+        previewButton.className = 'tile-preview';
+        previewButton.setAttribute('aria-label', `Open preview for ${item.name}`);
+        previewButton.appendChild(preview);
+        figure.append(previewButton, caption);
+
+        const activate = () => {
+          const previewEl = previewButton.querySelector('img, iframe');
+          const source = isPdf
+            ? pdfSource
+            : (previewEl && (previewEl.currentSrc || previewEl.src)) || item.image;
+          const downloadHref = isPdf ? item.image : item.downloadFile || item.image;
+          openModal(source, item.name, isPdf ? 'pdf' : 'image', downloadHref);
+        };
+
+        previewButton.addEventListener('click', activate);
+      } else {
+        figure.append(preview, caption);
+        if (isPendingArt) {
+          figure.setAttribute('aria-label', `${item.name} — awaiting artwork`);
+        }
+      }
 
       if (item.description) {
         const description = document.createElement('p');
@@ -439,9 +507,6 @@ const buildDashboard = (dataset) => {
         downloadButton.href = item.downloadFile;
         downloadButton.textContent = item.downloadLabel || 'Download';
         downloadButton.setAttribute('download', '');
-        // Prevent the tile-level click handler from opening the modal
-        // whenever someone just wants to grab the file.
-        downloadButton.addEventListener('click', (event) => event.stopPropagation());
         figure.appendChild(downloadButton);
       }
 
@@ -462,42 +527,7 @@ const buildDashboard = (dataset) => {
         divider.className = 'tiles-divider';
         divider.setAttribute('aria-hidden', 'true');
         tiles.appendChild(divider);
-        return;
       }
-
-      if (isPendingArt) {
-        // No artwork yet — nothing to open in the modal, so skip the click
-        // handler. The tile still appears in the grid (and in search) as a
-        // visible "slot" so editors can see what's missing.
-        figure.setAttribute('aria-label', `${item.name} — awaiting artwork`);
-        return;
-      }
-
-      // Make tile fully keyboard-activatable.
-      figure.setAttribute('role', 'button');
-      figure.setAttribute('tabindex', '0');
-      figure.setAttribute('aria-label', `Open preview for ${item.name}`);
-
-      const activate = () => {
-        const previewEl = figure.querySelector('img, iframe');
-        const source = isPdf
-          ? pdfSource
-          : (previewEl && (previewEl.currentSrc || previewEl.src)) || item.image;
-        openModal(source, item.name, isPdf ? 'pdf' : 'image');
-      };
-
-      figure.addEventListener('click', (event) => {
-        // Ignore clicks that originated on the tile-level download anchor.
-        if (event.target.closest('.tile-download')) return;
-        activate();
-      });
-
-      figure.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          activate();
-        }
-      });
     });
 
     section.append(heading, tiles);
@@ -508,6 +538,13 @@ const buildDashboard = (dataset) => {
     button.addEventListener('click', () => {
       const target = document.getElementById(button.dataset.target);
       target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Move focus to the heading so screen-reader / keyboard users
+      // land in the newly-scrolled section instead of staying on the nav.
+      const heading = target?.querySelector('h2');
+      if (heading) {
+        heading.setAttribute('tabindex', '-1');
+        requestAnimationFrame(() => heading.focus({ preventScroll: true }));
+      }
       closeMobileNavIfNeeded();
     });
   });
@@ -673,4 +710,47 @@ document.addEventListener('click', (event) => {
   if (!sidebar.classList.contains('sidebar--open')) return;
   if (sidebar.contains(event.target) || navToggle.contains(event.target)) return;
   closeMobileNavIfNeeded();
+});
+
+// Back-to-top: reveal after the user has scrolled past a reasonable threshold.
+if (backToTop) {
+  const BACK_TO_TOP_THRESHOLD = 480;
+  const updateBackToTopVisibility = () => {
+    const shouldShow = window.scrollY > BACK_TO_TOP_THRESHOLD;
+    backToTop.classList.toggle('visible', shouldShow);
+  };
+
+  window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
+  updateBackToTopVisibility();
+
+  backToTop.addEventListener('click', () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion ? 'auto' : 'smooth'
+    });
+    // Return focus to the search input — the natural next action after
+    // jumping to the top is typically to search or navigate.
+    if (searchInput) {
+      requestAnimationFrame(() => searchInput.focus({ preventScroll: true }));
+    }
+  });
+}
+
+// Keyboard shortcut: "/" focuses search when the user isn't already typing.
+document.addEventListener('keydown', (event) => {
+  if (event.key !== '/') return;
+  if (event.ctrlKey || event.metaKey || event.altKey) return;
+  const target = event.target;
+  const isEditable =
+    target instanceof HTMLElement &&
+    (target.tagName === 'INPUT' ||
+      target.tagName === 'TEXTAREA' ||
+      target.tagName === 'SELECT' ||
+      target.isContentEditable);
+  if (isEditable) return;
+  if (!searchInput) return;
+  event.preventDefault();
+  searchInput.focus();
+  searchInput.select();
 });
