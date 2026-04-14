@@ -302,6 +302,15 @@
           "image": "data/signs/8.5x11_Printed_AshAllmond.jpg",
           "orientation": "portrait",
           "category": "Printed Items (8.5x11)"
+        },
+        {
+          "name": "Blank 8.5x11 Template",
+          "image": "data/signs/8.5x11_Printed_template.jpg",
+          "description": "Available for download \u2014 use this template for any last-minute printed items.",
+          "downloadFile": "data/signs/8.5x11_Printed_template.jpg",
+          "downloadLabel": "Download template",
+          "orientation": "portrait",
+          "category": "Printed Items (8.5x11)"
         }
       ]
     },
