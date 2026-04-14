@@ -45,6 +45,11 @@
           "category": "30x18 Staked Sign (Title + Logo)"
         },
         {
+          "name": "Air Cannon Long Drive \u2014 Generic",
+          "image": "data/signs/30x18_AirCannon_Sign.jpg",
+          "category": "30x18 Staked Sign (Title + Logo)"
+        },
+        {
           "name": "Mega Putt \u2014 Corza Ophthalmology",
           "image": "data/signs/30x18_MegaPutt_Corza.jpg",
           "category": "30x18 Staked Sign (Title + Logo)"
@@ -197,16 +202,6 @@
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Par Is Your Friend (Version 2)",
-          "image": "data/signs/24x18_ParIsYourFriend_2.jpg",
-          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
-        },
-        {
-          "name": "Par Is Your Friend (Version 3)",
-          "image": "data/signs/24x18_ParIsYourFriend_3.jpg",
-          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
-        },
-        {
           "name": "Driving Range 1 - Moda",
           "image": "data/signs/24x18_DrivingRange1.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
@@ -288,12 +283,6 @@
         {
           "name": "Check-In Sign",
           "image": "data/signs/8.5x11_Printed_CheckIn.jpg",
-          "orientation": "portrait",
-          "category": "Printed Items (8.5x11)"
-        },
-        {
-          "name": "Golden Ball Rules Sign",
-          "image": "data/signs/8.5x11_goldenballrules.jpg",
           "orientation": "portrait",
           "category": "Printed Items (8.5x11)"
         },
