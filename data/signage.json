@@ -26,6 +26,7 @@
         {
           "name": "All Sponsor Board",
           "image": "data/signs/30x30_AllSponsor.jpg",
+          "pendingNote": "Pending updates \u2014 awaiting Ed \"Too Tall\" Jones logo",
           "category": "30x30 Foam Board (Easel)"
         },
         {
@@ -242,8 +243,7 @@
       "items": [
         {
           "name": "Welcome Mesh Banner",
-          "image": "data/signs/7X4_meshbanner-2.jpg",
-          "pendingNote": "Pending updates \u2014 awaiting Ed \"Too Tall\" Jones logo",
+          "image": "data/signs/7X4_meshbanner-3.jpg",
           "category": "7x4 Mesh Banners"
         }
       ]
@@ -277,9 +277,8 @@
         },
         {
           "name": "Birdie and Up Program \u2014 Back",
-          "image": "data/signs/Back_2025GolfProgram_26_1.jpg",
+          "image": "data/signs/Back_DAL_2025GolfProgram_26.jpg",
           "orientation": "portrait",
-          "pendingNote": "Pending updates \u2014 awaiting Ed \"Too Tall\" Jones logo",
           "category": "Program"
         }
       ]
