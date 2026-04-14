@@ -415,6 +415,13 @@ const buildDashboard = (dataset) => {
       caption.textContent = item.name;
       figure.append(preview, caption);
 
+      if (item.description) {
+        const description = document.createElement('p');
+        description.className = 'tile-description';
+        description.textContent = item.description;
+        figure.appendChild(description);
+      }
+
       // Items that *have* artwork but still need regeneration (e.g. pending a
       // new sponsor logo) get a visible "pending updates" banner beneath the
       // caption so editors aren't fooled into thinking the file is final.
