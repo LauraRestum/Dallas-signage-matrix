@@ -1,5 +1,5 @@
 {
-  "assetVersion": "2026-04-15-2",
+  "assetVersion": "2026-04-15-3",
   "categories": [
     {
       "title": "30x30 Foam Board (Easel)",
@@ -159,6 +159,11 @@
           "image": "data/signs/24x18_TeeBox_EdTooTall.jpg"
         },
         {
+          "name": "Tee Box \u2014 Enza Financial, LLC",
+          "image": "data/signs/24x18_TeeBox_Enza.jpg",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+        },
+        {
           "name": "Birdie \u2014 Belleville Boot Company",
           "image": "data/signs/24x18_Birdie_BellevilleBoot.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
@@ -176,6 +181,11 @@
         {
           "name": "Birdie \u2014 eShipping",
           "image": "data/signs/24x18_Birdie_eShipping.jpg",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+        },
+        {
+          "name": "Birdie \u2014 Plastic Film",
+          "image": "data/signs/24x18_Birdie_PlasticFilm.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
