@@ -382,6 +382,48 @@ body {
   border-bottom: 2px solid var(--mid-gray);
 }
 
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.85rem;
+  margin: 0 0 0.85rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--mid-gray);
+  flex-wrap: wrap;
+}
+
+.section-header h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.section-download {
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  border: 0;
+  border-radius: 7px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--primary-blue);
+  background: #e6f1ff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.section-download:hover {
+  background: #d6e8ff;
+}
+
+.section-download:disabled {
+  color: #7a8796;
+  background: #eef2f6;
+  cursor: not-allowed;
+}
+
 .tiles {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

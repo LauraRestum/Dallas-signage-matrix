@@ -550,7 +550,47 @@ const buildDashboard = (dataset) => {
       }
     });
 
-    section.append(heading, tiles);
+    const sectionHeader = document.createElement('div');
+    sectionHeader.className = 'section-header';
+    sectionHeader.appendChild(heading);
+
+    let sectionDownload;
+    if (downloadFiles.length > 1) {
+      sectionDownload = document.createElement('button');
+      sectionDownload.type = 'button';
+      sectionDownload.className = 'section-download';
+      sectionDownload.textContent = `Download print-ready PDF (${downloadFiles.length} files)`;
+      sectionDownload.addEventListener('click', async () => {
+        const proceed = window.confirm(
+          `This will download ${downloadFiles.length} files. Continue?`
+        );
+        if (!proceed) return;
+        sectionDownload.disabled = true;
+        const originalLabel = sectionDownload.textContent;
+        sectionDownload.textContent = 'Downloading…';
+        const failures = await triggerFileBatchDownload(downloadFiles);
+        sectionDownload.disabled = false;
+        if (failures.length) {
+          sectionDownload.textContent = `${failures.length} file${failures.length === 1 ? '' : 's'} failed — retry`;
+        } else {
+          sectionDownload.textContent = 'Downloaded ✓';
+          window.setTimeout(() => {
+            sectionDownload.textContent = originalLabel;
+          }, 2400);
+        }
+      });
+    } else if (singleDownloadHref) {
+      sectionDownload = document.createElement('a');
+      sectionDownload.className = 'section-download';
+      sectionDownload.textContent = 'Download print-ready PDF';
+      sectionDownload.href = singleDownloadHref;
+      sectionDownload.setAttribute('download', '');
+    }
+    if (sectionDownload) {
+      sectionHeader.appendChild(sectionDownload);
+    }
+
+    section.append(sectionHeader, tiles);
     content.appendChild(section);
   });
 
