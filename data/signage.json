@@ -1,9 +1,4 @@
 {
-  "allSigns": {
-    "label": "Download all signs",
-    "printReadyFile": "data/signs/Fore Vision Golf Tournament-7.pdf",
-    "printReadyLabel": "Download print ready"
-  },
   "categories": [
     {
       "title": "30x30 Foam Board (Easel)",
@@ -42,6 +37,7 @@
     },
     {
       "title": "30x18 Staked Sign (Title + Logo)",
+      "printReadyFile": "data/signs/Fore Vision Golf Tournament-2.pdf",
       "items": [
         {
           "name": "Air Cannon Long Drive \u2014 IMA, Inc.",
@@ -118,6 +114,7 @@
     },
     {
       "title": "24x18 Staked Sign (Thank you to our sponsor + logo)",
+      "printReadyFile": "data/signs/Fore Vision Golf Tournament-7.pdf",
       "items": [
         {
           "name": "Tee Box \u2014 Polara Enterprises",
@@ -243,6 +240,7 @@
     },
     {
       "title": "7x4 Mesh Banners",
+      "printReadyFile": "data/signs/7X4_meshbanner.pdf",
       "items": [
         {
           "name": "Welcome Mesh Banner",
@@ -292,6 +290,7 @@
     },
     {
       "title": "Printed Items (8.5x11)",
+      "printReadyFile": "data/signs/Fore Vision Golf Tournament-6.pdf",
       "items": [
         {
           "name": "Check-In Sign",
