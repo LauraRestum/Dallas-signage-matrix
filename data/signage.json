@@ -26,7 +26,6 @@
         {
           "name": "All Sponsor Board",
           "image": "data/signs/30x30_AllSponsor.jpg",
-          "pendingNote": "Pending updates \u2014 awaiting Ed \"Too Tall\" Jones logo",
           "category": "30x30 Foam Board (Easel)"
         },
         {
@@ -157,9 +156,8 @@
         },
         {
           "name": "Tee Box \u2014 Ed \"Too Tall\" Jones",
-          "pending": true,
-          "pendingNote": "Awaiting logo from development",
-          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)",
+          "image": "data/signs/24x18_TeeBox_EdTooTall.jpg"
         },
         {
           "name": "Birdie \u2014 Belleville Boot Company",
@@ -271,7 +269,7 @@
         },
         {
           "name": "Birdie and Up Program \u2014 Back",
-          "image": "data/signs/Back_DAL_2025GolfProgram_26.jpg",
+          "image": "data/signs/FINAL_DAL_2025GolfProgram_26_1.jpg",
           "orientation": "portrait",
           "category": "Program"
         }
