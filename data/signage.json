@@ -128,11 +128,6 @@
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
-          "name": "Tee Box \u2014 Enza Financial, LLC",
-          "image": "data/signs/24x18_TeeBox_Enza.jpg",
-          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
-        },
-        {
           "name": "Tee Box \u2014 Ubeo Business Services",
           "image": "data/signs/24x18_TeeBox_Ubeo.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
@@ -168,6 +163,11 @@
           "image": "data/signs/24x18_TeeBox_EdTooTall.jpg"
         },
         {
+          "name": "Tee Box \u2014 GoVivid",
+          "image": "data/signs/24x18_TeeBox_GoVivid.jpg",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+        },
+        {
           "name": "Birdie \u2014 Belleville Boot Company",
           "image": "data/signs/24x18_Birdie_BellevilleBoot.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
@@ -188,6 +188,11 @@
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
+          "name": "Birdie \u2014 Plastic Film",
+          "image": "data/signs/24x18_Birdie_PlasticFilm.jpg",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+        },
+        {
           "name": "Par \u2014 Texcel",
           "image": "data/signs/24x18_Par_Texcel.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
@@ -205,6 +210,16 @@
         {
           "name": "Par Is Your Friend (Version 1)",
           "image": "data/signs/24x18_ParIsYourFriend_1.jpg",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+        },
+        {
+          "name": "Par Is Your Friend (Version 2)",
+          "image": "data/signs/24x18_ParIsYourFriend_2.jpg",
+          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
+        },
+        {
+          "name": "Par Is Your Friend (Version 3)",
+          "image": "data/signs/24x18_ParIsYourFriend_3.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {
