@@ -1,4 +1,9 @@
 {
+  "allSigns": {
+    "label": "Download all signs",
+    "printReadyFile": "data/signs/Fore Vision Golf Tournament-7.pdf",
+    "printReadyLabel": "Download print ready"
+  },
   "categories": [
     {
       "title": "30x30 Foam Board (Easel)",

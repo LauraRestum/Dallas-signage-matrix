@@ -316,6 +316,35 @@ body {
   cursor: not-allowed;
 }
 
+.nav-all-signs {
+  margin: 0 0.3rem 0.85rem;
+  padding: 0.65rem 0.7rem 0.75rem;
+  background: #fff;
+  border: 1px solid var(--mid-gray);
+  border-radius: 9px;
+  box-shadow: 0 1px 2px rgba(16, 32, 60, 0.04);
+}
+
+.nav-all-signs-label {
+  margin: 0 0 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.nav-download--primary {
+  margin: 0;
+  width: 100%;
+  background: var(--primary-blue);
+  color: #fff;
+}
+
+.nav-download--primary:hover {
+  background: var(--primary-blue-hover);
+}
+
 /* ----- Content ----- */
 
 .content {

@@ -264,6 +264,26 @@ const applyFilter = (rawQuery) => {
 
 /* ----------------------------- Dashboard render ----------------------------- */
 
+const buildAllSignsPanel = (allSigns) => {
+  if (!allSigns || !allSigns.printReadyFile) return null;
+
+  const panel = document.createElement('div');
+  panel.className = 'nav-all-signs';
+
+  const heading = document.createElement('p');
+  heading.className = 'nav-all-signs-label';
+  heading.textContent = allSigns.label || 'Download all signs';
+
+  const link = document.createElement('a');
+  link.className = 'nav-download nav-download--primary';
+  link.href = allSigns.printReadyFile;
+  link.textContent = allSigns.printReadyLabel || 'Download print ready';
+  link.setAttribute('download', '');
+
+  panel.append(heading, link);
+  return panel;
+};
+
 const buildDashboard = (dataset) => {
   const groupButtons = [];
   const itemButtons = [];
@@ -272,6 +292,11 @@ const buildDashboard = (dataset) => {
   // Clear prior state (in case of rebuild).
   toc.innerHTML = '';
   // Leave status node in place; we'll remove it after successful render.
+
+  const allSignsPanel = buildAllSignsPanel(dataset.allSigns);
+  if (allSignsPanel) {
+    toc.appendChild(allSignsPanel);
+  }
 
   dataset.categories.forEach((category, categoryIndex) => {
     const sectionId = `section-${slugify(category.title)}-${categoryIndex}`;

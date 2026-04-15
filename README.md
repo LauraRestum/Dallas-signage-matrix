@@ -23,6 +23,23 @@ If a JSON path does not match an existing file, the app will show a fallback pre
 
 The **only** place sign JPEGs/PNGs should live is `data/signs/`. If you find a sign image at the repo root, it is a stray copy from an older workflow — move it into `data/signs/` (overwriting the existing file if the art has been updated) and delete the root copy.
 
+## Sidebar "Download all signs" button
+
+The top of the left sidebar shows a single **Download print ready** button that points at one combined PDF of every sign. It's controlled by the top-level `allSigns` block in `data/signage.json`:
+
+```json
+{
+  "allSigns": {
+    "label": "Download all signs",
+    "printReadyFile": "data/signs/Fore Vision Golf Tournament-7.pdf",
+    "printReadyLabel": "Download print ready"
+  },
+  "categories": [ ... ]
+}
+```
+
+To swap in a new combined PDF, drop the file into `data/signs/` and update `printReadyFile` to match the new filename. If you remove the `allSigns` block entirely, the panel disappears.
+
 ## Section-level print-ready downloads
 
 Each category in `data/signage.json` can now include a `printReadyFile` value (SVG, PNG, or PDF path).
