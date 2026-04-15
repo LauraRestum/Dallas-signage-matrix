@@ -226,18 +226,29 @@
         {
           "name": "Welcome Banner \u2014 Version 1",
           "image": "data/signs/32x70_XBanner_Welcome1.jpg",
+          "downloadFile": "data/signs/32x70_XBanner_Welcome1.pdf",
+          "downloadLabel": "Download print-ready PDF",
           "category": "X-Banners"
         },
         {
           "name": "Welcome Banner \u2014 Version 2",
           "image": "data/signs/32x70_XBanner_Welcome2.jpg",
+          "downloadFile": "data/signs/32x70_XBanner_Welcome2.pdf",
+          "downloadLabel": "Download print-ready PDF",
           "category": "X-Banners"
         },
         {
           "name": "Welcome Banner \u2014 Version 3",
           "image": "data/signs/32x70_XBanner_Welcome3.jpg",
+          "downloadFile": "data/signs/32x70_XBanner_Welcome3.pdf",
+          "downloadLabel": "Download print-ready PDF",
           "category": "X-Banners"
         }
+      ],
+      "printReadyFiles": [
+        "data/signs/32x70_XBanner_Welcome1.pdf",
+        "data/signs/32x70_XBanner_Welcome2.pdf",
+        "data/signs/32x70_XBanner_Welcome3.pdf"
       ]
     },
     {
