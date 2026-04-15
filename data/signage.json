@@ -1,4 +1,5 @@
 {
+  "assetVersion": "2026-04-15",
   "categories": [
     {
       "title": "30x30 Foam Board (Easel)",
@@ -120,11 +121,6 @@
         {
           "name": "Tee Box \u2014 AFFLINK",
           "image": "data/signs/24x18_TeeBox_AFFLINK.jpg",
-          "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
-        },
-        {
-          "name": "Tee Box \u2014 Enza Financial, LLC",
-          "image": "data/signs/24x18_TeeBox_Enza.jpg",
           "category": "24x18 Staked Sign (Thank you to our sponsor + logo)"
         },
         {

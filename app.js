@@ -19,6 +19,22 @@ let groupButtonsRef = [];
 let itemButtonsRef = [];
 let tileNodesRef = [];
 let sectionNodesRef = [];
+let assetVersion = '';
+
+// Local asset paths get a `?v=<assetVersion>` query string so browsers refetch
+// signs whenever editors bump the version in signage.json. Without this, signs
+// re-saved at the same path (e.g. the bulk "updated signs" refreshes) would
+// keep showing the old cached image until users hard-refresh.
+const withAssetVersion = (path) => {
+  if (!path || !assetVersion) return path;
+  if (/^(?:https?:|data:|blob:)/i.test(path)) return path;
+  const [base, fragment = ''] = String(path).split('#');
+  const [pathPart, query = ''] = base.split('?');
+  const params = new URLSearchParams(query);
+  params.set('v', assetVersion);
+  const suffix = fragment ? `#${fragment}` : '';
+  return `${pathPart}?${params.toString()}${suffix}`;
+};
 
 const slugify = (text) =>
   text
@@ -265,6 +281,8 @@ const applyFilter = (rawQuery) => {
 /* ----------------------------- Dashboard render ----------------------------- */
 
 const buildDashboard = (dataset) => {
+  assetVersion = String(dataset.assetVersion || '');
+
   const groupButtons = [];
   const itemButtons = [];
   const tileNodes = [];
@@ -342,7 +360,7 @@ const buildDashboard = (dataset) => {
         downloadControl.disabled = true;
         const originalLabel = downloadControl.textContent;
         downloadControl.textContent = 'Downloading…';
-        const failures = await triggerFileBatchDownload(downloadFiles);
+        const failures = await triggerFileBatchDownload(downloadFiles.map(withAssetVersion));
         downloadControl.disabled = false;
         if (failures.length) {
           downloadControl.textContent = `${failures.length} file${failures.length === 1 ? '' : 's'} failed — retry`;
@@ -357,7 +375,7 @@ const buildDashboard = (dataset) => {
       downloadControl = document.createElement('a');
       downloadControl.className = 'nav-download';
       downloadControl.textContent = 'Download print-ready version';
-      downloadControl.href = singleDownloadHref;
+      downloadControl.href = withAssetVersion(singleDownloadHref);
       downloadControl.setAttribute('download', '');
     } else {
       downloadControl = document.createElement('button');
@@ -432,13 +450,13 @@ const buildDashboard = (dataset) => {
       } else if (isPdf) {
         const pdf = document.createElement('iframe');
         pdf.className = 'tile-pdf';
-        pdf.src = pdfSource;
+        pdf.src = withAssetVersion(pdfSource);
         pdf.title = `${item.name} PDF preview`;
         pdf.loading = 'lazy';
         preview = pdf;
       } else {
         const image = document.createElement('img');
-        image.src = item.image;
+        image.src = withAssetVersion(item.image);
         image.alt = item.name;
         image.loading = 'lazy';
         image.decoding = 'async';
@@ -469,9 +487,11 @@ const buildDashboard = (dataset) => {
         const activate = () => {
           const previewEl = previewButton.querySelector('img, iframe');
           const source = isPdf
-            ? pdfSource
-            : (previewEl && (previewEl.currentSrc || previewEl.src)) || item.image;
-          const downloadHref = isPdf ? item.image : item.downloadFile || item.image;
+            ? withAssetVersion(pdfSource)
+            : (previewEl && (previewEl.currentSrc || previewEl.src)) || withAssetVersion(item.image);
+          const downloadHref = withAssetVersion(
+            isPdf ? item.image : item.downloadFile || item.image
+          );
           openModal(source, item.name, isPdf ? 'pdf' : 'image', downloadHref);
         };
 
@@ -504,7 +524,7 @@ const buildDashboard = (dataset) => {
       if (hasCustomDownload(item)) {
         const downloadButton = document.createElement('a');
         downloadButton.className = 'tile-download';
-        downloadButton.href = item.downloadFile;
+        downloadButton.href = withAssetVersion(item.downloadFile);
         downloadButton.textContent = item.downloadLabel || 'Download';
         downloadButton.setAttribute('download', '');
         figure.appendChild(downloadButton);
@@ -661,7 +681,9 @@ const renderError = (error) => {
 
 const loadData = () => {
   contentStatus.innerHTML = '<p>Loading signage&hellip;</p>';
-  fetch('data/signage.json')
+  // Bust any HTTP cache on the dataset itself so newly bumped assetVersion
+  // values reach the page on the next reload, not after a hard refresh.
+  fetch(`data/signage.json?ts=${Date.now()}`, { cache: 'no-store' })
     .then((response) => {
       if (!response.ok) throw new Error('Unable to load signage dataset.');
       return response.json();
